@@ -10,7 +10,7 @@ export function ProductGallery({ images = [], name }) {
   return (
     <div className="flex flex-col gap-4">
       {/* Main Image Display */}
-      <div className="relative aspect-[4/5] max-h-[420px] bg-slate-100 rounded-2xl overflow-hidden border border-slate-200 shadow-md">
+      <div className="relative aspect-[4/5] max-h-[330px] sm:max-h-[420px] bg-slate-100 rounded-2xl overflow-hidden border border-slate-200 shadow-md">
         <img
           src={selectedImage}
           alt={name}
