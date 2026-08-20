@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { ShoppingBag, Search, Menu, LogOut, ShieldCheck, User } from 'lucide-react';
+import { ShoppingBag, Search, Menu, LogOut, ShieldCheck, User, X } from 'lucide-react';
 import { AnnouncementBar } from './AnnouncementBar';
 import { MobileMenu } from './MobileMenu';
 import { useAuth } from '../../context/AuthContext';
@@ -37,6 +37,7 @@ function UserAvatar({ picture, name, size = 'sm' }) {
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showMobileSearch, setShowMobileSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const location = useLocation();
   const navigate = useNavigate();
@@ -55,6 +56,7 @@ export function Header() {
     e.preventDefault();
     if (searchQuery.trim()) {
       navigate(`/catalogue?search=${encodeURIComponent(searchQuery.trim())}`);
+      setShowMobileSearch(false);
     }
   };
 
@@ -128,6 +130,17 @@ export function Header() {
                 />
                 <Search className="w-3.5 h-3.5 text-slate-500 absolute left-2.5 top-2 pointer-events-none stroke-[1.75]" />
               </form>
+
+              {/* Mobile Search Icon Button */}
+              <button
+                type="button"
+                onClick={() => setShowMobileSearch(!showMobileSearch)}
+                className="md:hidden p-1.5 text-slate-900 hover:text-[#B97832] hover:bg-slate-100/80 rounded-xl transition-colors flex items-center justify-center border border-slate-200/80 bg-white/80"
+                aria-label="Toggle Mobile Search"
+                title="Search products"
+              >
+                <Search className="w-5 h-5 stroke-[1.75]" />
+              </button>
 
               {/* Cart / Wholesale Order Box Link */}
               <Link
@@ -249,6 +262,32 @@ export function Header() {
               </button>
             </div>
           </div>
+
+          {/* Expandable Mobile Search Bar */}
+          {showMobileSearch && (
+            <div className="md:hidden px-3.5 pb-2.5 pt-1 animate-fade-in border-t border-slate-100">
+              <form onSubmit={handleSearchSubmit} className="relative flex items-center">
+                <input
+                  type="text"
+                  placeholder="Search catalogue products..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  autoFocus
+                  className="w-full pl-9 pr-8 py-2 text-xs bg-slate-100/90 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#B97832] focus:bg-white text-slate-900 placeholder:text-slate-400 font-neue"
+                />
+                <Search className="w-4 h-4 text-slate-500 absolute left-3 top-2.5 pointer-events-none stroke-[1.75]" />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery('')}
+                    className="absolute right-2.5 top-2 text-slate-400 hover:text-slate-600 p-0.5"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </form>
+            </div>
+          )}
         </div>
       </div>
 
