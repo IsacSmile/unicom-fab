@@ -129,7 +129,26 @@ export function Header() {
                 <Search className="w-3.5 h-3.5 text-slate-500 absolute left-2.5 top-2 pointer-events-none stroke-[1.75]" />
               </form>
 
-              {/* Account Icon Button & Hover Card (Visible on Mobile + Desktop) */}
+              {/* Cart / Wholesale Order Box Link */}
+              <Link
+                to="/my-order"
+                className="p-1.5 text-slate-900 hover:text-[#B97832] hover:bg-slate-100/80 rounded-xl transition-all flex items-center gap-1.5 relative border border-slate-200/80 bg-white/80 shadow-2xs group"
+                aria-label="View Wholesale Cart Order"
+                title="My Wholesale Order"
+              >
+                <ShoppingBag className="w-5 h-5 stroke-[1.75] text-slate-900 group-hover:text-[#B97832] transition-colors" />
+                {totalQuantityCount > 0 ? (
+                  <span className="bg-[#B97832] text-white text-[10px] font-bold font-mono px-1.5 py-0.5 rounded-full min-w-[18px] text-center leading-none shadow-xs">
+                    {totalQuantityCount}
+                  </span>
+                ) : (
+                  <span className="hidden sm:inline-block text-[11px] font-semibold text-slate-500 group-hover:text-slate-900 pr-1">
+                    Order
+                  </span>
+                )}
+              </Link>
+
+              {/* Account Icon Button & Hover Card */}
               <div className="relative group">
                 <button
                   onClick={() => {
