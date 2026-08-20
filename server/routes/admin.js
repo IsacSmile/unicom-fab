@@ -2,9 +2,20 @@ import express from 'express';
 import db from '../db/database.js';
 import { authenticateAdmin } from '../middleware/authMiddleware.js';
 
-const router = express.Router();
+// Public Storefront Settings (Announcement Bar & Brand Marquee text)
+router.get('/settings', (req, res) => {
+  try {
+    const settings = db.prepare('SELECT * FROM admin_settings').all();
+    const settingsObj = {};
+    settings.forEach(s => { settingsObj[s.key] = s.value; });
+    return res.json({ settings: settingsObj });
+  } catch (err) {
+    console.error('Error fetching settings:', err);
+    return res.json({ settings: {} });
+  }
+});
 
-// Apply admin authentication middleware to all admin endpoints
+// Apply admin authentication middleware to all protected admin management endpoints
 router.use(authenticateAdmin);
 
 // Dashboard Overview Metrics
@@ -286,14 +297,7 @@ router.patch('/enquiries/:id/status', (req, res) => {
   return res.json({ message: `Enquiry status updated to ${status}` });
 });
 
-// Admin Storefront Announcement Settings
-router.get('/settings', (req, res) => {
-  const settings = db.prepare('SELECT * FROM admin_settings').all();
-  const settingsObj = {};
-  settings.forEach(s => { settingsObj[s.key] = s.value; });
-  return res.json({ settings: settingsObj });
-});
-
+// Admin Storefront Announcement Settings Update (Protected)
 router.post('/settings', (req, res) => {
   const { announcement_text, brand_marquee } = req.body;
   const insertOrUpdate = db.prepare('INSERT INTO admin_settings (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value');

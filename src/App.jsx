@@ -57,7 +57,7 @@ export default function App() {
     <ToastProvider>
       <AuthProvider>
         <CartProvider>
-          <Router>
+          <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
             <MainLayout>
               <Routes>
                 {/* Storefront Routes */}
