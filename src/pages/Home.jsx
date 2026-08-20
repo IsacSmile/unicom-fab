@@ -45,11 +45,11 @@ export function Home() {
 
   return (
     <div className="space-y-0">
-      {/* Hero Section */}
-      <Hero onOpenEnquiry={() => setEnquiryModalOpen(true)} />
-
-      {/* Brand Marquee */}
-      <BrandMarquee marqueeText={marqueeText} />
+      {/* First Screen Fold (100vh Hero + Docked Brand Marquee) */}
+      <div className="lg:min-h-[calc(100vh-92px)] flex flex-col justify-between bg-[#FAF9F6]">
+        <Hero onOpenEnquiry={() => setEnquiryModalOpen(true)} />
+        <BrandMarquee marqueeText={marqueeText} />
+      </div>
 
       {/* Merchandised Section 1: Trending Wholesale Lines */}
       <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
