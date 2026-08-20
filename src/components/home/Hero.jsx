@@ -17,28 +17,28 @@ export function Hero({ onOpenEnquiry }) {
           <div className="lg:col-span-7 space-y-6 text-left">
             
             {/* Minimal Eyebrow Tag */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-[#B97832]/30 text-[#B97832] text-[11px] font-mono font-semibold uppercase tracking-widest shadow-2xs">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-[#B97832]/30 text-[#B97832] text-[11px] font-mono font-semibold uppercase tracking-widest shadow-2xs">
               <Sparkles className="w-3.5 h-3.5 text-[#B97832]" />
-              <span>DIRECT MANUFACTURER B2B WHOLESALE</span>
+              <span>DIRECT MANUFACTURER B2B</span>
             </div>
 
-            {/* Premium Headline */}
-            <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-950 leading-[1.1] sm:leading-[1.08]">
-              WHOLESALE FABRICATION,<br />
-              <span className="bg-gradient-to-r from-amber-800 via-[#B97832] to-amber-600 bg-clip-text text-transparent italic font-normal">
-                WITHOUT THE FRICTION.
+            {/* Premium Concise Headline (2 Colors Max, Smaller Size) */}
+            <h1 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-slate-950 leading-tight sm:leading-snug">
+              Wholesale Apparel Manufacturing, <br className="hidden sm:inline" />
+              <span className="text-[#B97832] font-normal italic">
+                Direct From Factory.
               </span>
             </h1>
 
-            {/* Description */}
-            <p className="text-slate-600 text-sm sm:text-base lg:text-lg max-w-xl font-light leading-relaxed">
-              Curated apparel manufacturing lines for boutique retailers, brands, and enterprise resellers. Inspected batch standards, tier pricing, and direct Pan-India logistics.
+            {/* Concise Description */}
+            <p className="text-slate-600 text-sm sm:text-base font-light leading-relaxed max-w-lg">
+              Inspected wholesale apparel lines with transparent tier pricing and direct Pan-India logistics.
             </p>
 
             {/* Primary & Secondary Action CTAs */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-1">
               <Link to="/catalogue" className="w-full sm:w-auto">
-                <Button size="lg" variant="gold" icon={ArrowRight} className="w-full sm:w-auto font-bold shadow-md py-3.5 px-7 text-sm rounded-xl">
+                <Button size="lg" variant="gold" icon={ArrowRight} className="w-full sm:w-auto font-bold shadow-md py-3 px-6 text-sm rounded-xl">
                   Explore Catalogue
                 </Button>
               </Link>
@@ -47,21 +47,21 @@ export function Hero({ onOpenEnquiry }) {
                 size="lg"
                 variant="outline"
                 icon={Send}
-                className="w-full sm:w-auto text-slate-900 border-slate-300 bg-white hover:bg-slate-950 hover:text-white hover:border-slate-950 font-semibold py-3.5 px-6 text-sm rounded-xl transition-all shadow-2xs"
+                className="w-full sm:w-auto text-slate-900 border-slate-300 bg-white hover:bg-slate-950 hover:text-white hover:border-slate-950 font-semibold py-3 px-5 text-sm rounded-xl transition-all shadow-2xs"
               >
-                Send Wholesale Enquiry
+                Send Enquiry
               </Button>
             </div>
 
             {/* Key Commercial Metrics Row */}
-            <div className="pt-6 border-t border-slate-200/80 grid grid-cols-3 gap-3 text-slate-600 text-xs font-mono">
+            <div className="pt-4 border-t border-slate-200/80 grid grid-cols-3 gap-3 text-slate-600 text-xs font-mono">
               <div className="space-y-0.5">
                 <span className="text-slate-950 font-bold text-sm sm:text-base font-display block">30 PCS</span>
-                <span className="text-[10px] sm:text-[11px] uppercase tracking-wider text-slate-500 block">Low MOQ Limit</span>
+                <span className="text-[10px] sm:text-[11px] uppercase tracking-wider text-slate-500 block">Low MOQ</span>
               </div>
               <div className="space-y-0.5 border-l border-slate-200 pl-3">
                 <span className="text-slate-950 font-bold text-sm sm:text-base font-display block">100% Inspected</span>
-                <span className="text-[10px] sm:text-[11px] uppercase tracking-wider text-slate-500 block">Verified Batches</span>
+                <span className="text-[10px] sm:text-[11px] uppercase tracking-wider text-slate-500 block">Quality Verified</span>
               </div>
               <div className="space-y-0.5 border-l border-slate-200 pl-3">
                 <span className="text-slate-950 font-bold text-sm sm:text-base font-display block">Pan-India</span>
