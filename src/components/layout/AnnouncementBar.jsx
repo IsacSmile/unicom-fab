@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Truck, ShieldCheck, Sparkles } from 'lucide-react';
+import { Truck, Sparkles, ShieldCheck } from 'lucide-react';
 import { api } from '../../lib/api';
 
 export function AnnouncementBar() {
-  const [text, setText] = useState('WHOLESALE ORDERS • MINIMUM 30 PCS • PAN-INDIA & GLOBAL EXPRESS FULFILMENT');
+  const [text, setText] = useState('WHOLESALE ORDERS • MINIMUM 30 PCS');
 
   useEffect(() => {
     async function loadSettings() {
@@ -20,17 +20,21 @@ export function AnnouncementBar() {
   }, []);
 
   return (
-    <div className="bg-brand-950 text-luxury-gold py-2 px-4 text-xs font-semibold tracking-wider uppercase flex items-center justify-center gap-4 text-center border-b border-brand-800">
+    <div className="bg-[#0F172A] text-slate-300 py-2 px-4 text-[11px] font-mono uppercase tracking-widest flex items-center justify-center gap-3 sm:gap-4 text-center border-b border-slate-800 shrink-0">
       <span className="hidden md:inline-flex items-center gap-1.5 text-slate-300">
-        <Truck className="w-3.5 h-3.5 text-luxury-gold" /> Pan-India Direct Logistics
+        <Truck className="w-3.5 h-3.5 text-[#B97832]" /> Pan-India Direct Logistics
       </span>
-      <span className="hidden md:inline font-mono opacity-40">•</span>
-      <span className="flex items-center gap-1.5 text-amber-300 font-medium">
+
+      <span className="hidden md:inline text-slate-600 font-sans">•</span>
+
+      <span className="inline-flex items-center gap-1.5 text-[#B97832] font-semibold">
         <Sparkles className="w-3.5 h-3.5" /> {text}
       </span>
-      <span className="hidden md:inline font-mono opacity-40">•</span>
+
+      <span className="hidden md:inline text-slate-600 font-sans">•</span>
+
       <span className="hidden md:inline-flex items-center gap-1.5 text-slate-300">
-        <ShieldCheck className="w-3.5 h-3.5 text-luxury-gold" /> Verified Batch Quality
+        <ShieldCheck className="w-3.5 h-3.5 text-[#B97832]" /> Verified Batch Quality
       </span>
     </div>
   );
