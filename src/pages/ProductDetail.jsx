@@ -107,11 +107,11 @@ export function ProductDetail() {
           {/* Header Info */}
           <div>
             <div className="flex flex-wrap items-center gap-2 mb-2">
-              <span className="text-xs font-mono font-bold tracking-widest text-amber-700 uppercase">
+              <span className="text-[10px] font-mono font-bold tracking-widest text-[#B97832] uppercase bg-amber-50 px-2 py-0.5 rounded border border-amber-200/60">
                 {product.category}
               </span>
               <span className="text-slate-300 font-mono">•</span>
-              <span className="text-xs font-mono text-slate-500 font-semibold">
+              <span className="text-[11px] font-mono text-slate-500 font-semibold">
                 BATCH: {product.batchNumber}
               </span>
               <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase border ${stockBadge.color}`}>
@@ -123,9 +123,9 @@ export function ProductDetail() {
               {product.name}
             </h1>
 
-            <div className="mt-3 flex items-baseline gap-3 pb-3 border-b border-slate-200">
-              <span className="text-[11px] text-slate-400 font-semibold uppercase font-mono">Wholesale Price:</span>
-              <span className="font-display font-bold text-xl sm:text-2xl text-slate-950">
+            <div className="mt-3 flex items-baseline gap-2.5 pb-3 border-b border-slate-200">
+              <span className="text-[10px] text-slate-500 font-semibold uppercase font-mono tracking-wider">Wholesale Price:</span>
+              <span className="font-display font-bold text-2xl sm:text-3xl text-slate-950">
                 {formatCurrency(product.wholesalePrice)}
                 <span className="text-xs font-normal text-slate-500"> / PC</span>
               </span>
@@ -137,14 +137,14 @@ export function ProductDetail() {
             </div>
           </div>
 
-          {/* Description */}
-          <div className="text-slate-600 text-xs sm:text-sm leading-relaxed space-y-1.5">
-            <h4 className="text-[10px] font-bold uppercase text-slate-400 font-mono tracking-wider">Garment & Batch Specs</h4>
-            <p>{product.description}</p>
+          {/* Garment & Batch Specs */}
+          <div className="bg-slate-50/80 p-3 sm:p-3.5 rounded-xl border-l-2 border-[#B97832] border-y border-r border-slate-200/80 text-slate-600 text-xs sm:text-sm leading-relaxed space-y-1">
+            <h4 className="text-[10px] font-bold uppercase text-amber-800 font-mono tracking-wider">Garment & Batch Specs</h4>
+            <p className="text-slate-700 font-sans">{product.description}</p>
           </div>
 
           {/* Variants Selectors */}
-          <div className="space-y-4 p-4 sm:p-5 bg-slate-50/90 rounded-2xl border border-slate-200/90">
+          <div className="space-y-4 p-4 sm:p-5 bg-white sm:bg-slate-50/90 rounded-2xl border border-slate-200/90 shadow-xs sm:shadow-none">
             {/* Colour Selector */}
             <ColourSelector
               colours={product.colours}
@@ -170,14 +170,16 @@ export function ProductDetail() {
           </div>
 
           {/* Total Line Pricing Summary */}
-          <div className="p-3.5 bg-slate-950 text-white rounded-xl flex items-center justify-between">
+          <div className="p-3.5 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 text-white rounded-xl flex items-center justify-between shadow-md border border-slate-800">
             <div>
-              <span className="text-[10px] text-slate-400 block font-mono">Line Estimated Total ({quantity} PCS)</span>
+              <span className="text-[10px] text-slate-400 block font-mono uppercase tracking-wider">Line Estimated Total ({quantity} PCS)</span>
               <span className="font-display font-bold text-xl sm:text-2xl text-amber-400">
                 {formatCurrency(product.wholesalePrice * quantity)}
               </span>
             </div>
-            <span className="text-[10px] font-mono text-slate-400">Excl. Freight Tax</span>
+            <span className="text-[10px] font-mono text-slate-400 bg-slate-800/80 px-2 py-1 rounded border border-slate-700">
+              Excl. Freight Tax
+            </span>
           </div>
 
           {/* Action Buttons */}
@@ -187,7 +189,7 @@ export function ProductDetail() {
               variant="primary"
               icon={ShoppingBag}
               disabled={product.stockQuantity <= 0}
-              className="w-full sm:flex-1 font-bold text-xs sm:text-sm py-2.5 bg-[#B97832] hover:bg-amber-800 text-white shadow-sm"
+              className="w-full sm:flex-1 font-bold text-xs sm:text-sm py-3 bg-[#B97832] hover:bg-amber-800 active:scale-[0.99] text-white shadow-md rounded-xl"
             >
               Add to Wholesale Order
             </Button>
@@ -195,7 +197,7 @@ export function ProductDetail() {
               onClick={() => setEnquiryOpen(true)}
               variant="outline"
               icon={Send}
-              className="w-full sm:w-auto text-xs py-2.5"
+              className="w-full sm:w-auto text-xs py-3 rounded-xl hover:bg-slate-50"
             >
               Send Enquiry
             </Button>

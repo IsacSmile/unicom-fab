@@ -90,7 +90,7 @@ export function QuantitySelector({ quantity, onChange, minOrderQuantity = 30, qu
         </span>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex flex-wrap sm:flex-nowrap items-center gap-2.5 sm:gap-3">
         {/* Step Buttons */}
         <div className="flex items-center border border-slate-300 rounded-xl overflow-hidden bg-white shadow-xs">
           <button
