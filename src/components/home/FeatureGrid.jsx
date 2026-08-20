@@ -36,38 +36,38 @@ export function FeatureGrid() {
   ];
 
   return (
-    <section className="py-20 sm:py-24 bg-[#F5F3EE] border-t border-[#E7E3DA] relative">
+    <section className="py-10 sm:py-16 bg-[#F5F3EE] border-t border-[#E7E3DA] relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-          <span className="text-xs font-mono font-bold tracking-widest text-[#B97832] uppercase">
+        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10 space-y-2">
+          <span className="text-[11px] font-mono font-bold tracking-widest text-[#B97832] uppercase">
             WHY PARTNER WITH UNICOM FAB
           </span>
-          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#101828]">
+          <h2 className="font-serif text-xl sm:text-3xl font-bold text-[#101828]">
             Engineered for Modern Retailers & Brands
           </h2>
-          <p className="text-[#667085] text-sm sm:text-base leading-relaxed">
+          <p className="text-[#667085] text-xs sm:text-sm leading-relaxed px-2">
             Eliminate traditional offline wholesale procurement hassles. Inspect digital specs, confirm batch numbers, and manage restocks seamlessly.
           </p>
         </div>
 
         {/* Feature Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
           {features.map((item, idx) => {
             const Icon = item.icon;
             return (
               <div
                 key={idx}
-                className="bg-white border border-[#E7E3DA] p-6 sm:p-7 rounded-2xl shadow-sm hover:shadow-md hover:border-[#B97832]/40 hover:-translate-y-1 transition-all duration-300 space-y-4 group flex flex-col justify-between"
+                className="bg-white border border-[#E7E3DA] p-4 sm:p-5 rounded-xl shadow-2xs hover:shadow-md hover:border-[#B97832]/40 hover:-translate-y-0.5 transition-all duration-300 space-y-3 group flex flex-col justify-between"
               >
-                <div className="space-y-4">
-                  <div className="w-11 h-11 rounded-xl bg-[#F5F3EE] border border-[#E7E3DA] text-[#B97832] flex items-center justify-center group-hover:bg-[#B97832] group-hover:text-white group-hover:border-[#B97832] transition-colors duration-300">
-                    <Icon className="w-5 h-5" />
+                <div className="space-y-2.5">
+                  <div className="w-9 h-9 rounded-lg bg-[#F5F3EE] border border-[#E7E3DA] text-[#B97832] flex items-center justify-center group-hover:bg-[#B97832] group-hover:text-white group-hover:border-[#B97832] transition-colors duration-300">
+                    <Icon className="w-4 h-4" />
                   </div>
-                  <h3 className="font-serif font-bold text-lg sm:text-xl text-[#101828] group-hover:text-[#B97832] transition-colors">
+                  <h3 className="font-serif font-bold text-base sm:text-lg text-[#101828] group-hover:text-[#B97832] transition-colors">
                     {item.title}
                   </h3>
-                  <p className="text-xs sm:text-sm text-[#667085] leading-relaxed font-normal">
+                  <p className="text-xs text-[#667085] leading-relaxed font-normal">
                     {item.description}
                   </p>
                 </div>
