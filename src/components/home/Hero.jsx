@@ -1,9 +1,51 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ShieldCheck, Award, Send, Sparkles, CheckCircle2 } from 'lucide-react';
 import { Button } from '../common/Button';
 
+const HERO_SHOWCASE_SLIDES = [
+  {
+    image: '/hero-apparel-showcase.png',
+    title: 'Minimalist Luxury Apparel Lines',
+    batch: 'BATCH 2026-AUTUMN',
+    price: '₹680 - ₹1,450',
+    moq: '30 PCS',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1000&q=80',
+    title: 'Italian Linen & Resort Wear Collection',
+    batch: 'BATCH 2026-SUMMER',
+    price: '₹450 - ₹1,120',
+    moq: '50 PCS',
+  },
+  {
+    image: '/kolkata-factory-story.png',
+    title: 'Precision Tailored Outerwear & Blazers',
+    batch: 'BATCH 2026-CRAFT',
+    price: '₹950 - ₹2,300',
+    moq: '25 PCS',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=1000&q=80',
+    title: 'Heavyweight Loopback Hoodies & Fleeces',
+    batch: 'BATCH 2026-WINTER',
+    price: '₹550 - ₹1,280',
+    moq: '40 PCS',
+  },
+];
+
 export function Hero({ onOpenEnquiry }) {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % HERO_SHOWCASE_SLIDES.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const activeSlide = HERO_SHOWCASE_SLIDES[currentSlide];
+
   return (
     <section className="relative bg-[#FAF9F6] text-slate-900 overflow-hidden py-6 sm:py-8 lg:py-10 flex-1 flex items-center font-neue">
       {/* Background Soft Golden Warm Ambient Halo */}
@@ -76,29 +118,51 @@ export function Hero({ onOpenEnquiry }) {
               
               {/* Luxury Apparel Showcase Card */}
               <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden border border-slate-200/90 shadow-xl aspect-square lg:max-h-[380px] xl:max-h-[420px] group bg-white mx-auto">
-                <img
-                  src="/hero-apparel-showcase.png"
-                  alt="UNICOM FAB Luxury Apparel Manufacturing Line"
-                  className="w-full h-full object-cover object-center group-hover:scale-103 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-85" />
+                
+                {/* 3-Second Auto-Cycling Slideshow Images */}
+                {HERO_SHOWCASE_SLIDES.map((slide, idx) => (
+                  <img
+                    key={idx}
+                    src={slide.image}
+                    alt={slide.title}
+                    className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-1000 ease-in-out ${
+                      idx === currentSlide ? 'opacity-100 scale-100' : 'opacity-0 scale-105 pointer-events-none'
+                    }`}
+                  />
+                ))}
+                
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent pointer-events-none" />
+
+                {/* Top Slide Indicator Dots */}
+                <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 bg-slate-950/50 backdrop-blur-xs px-2.5 py-1 rounded-full border border-white/10">
+                  {HERO_SHOWCASE_SLIDES.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setCurrentSlide(idx)}
+                      className={`h-1.5 rounded-full transition-all duration-300 ${
+                        idx === currentSlide ? 'w-5 bg-[#B97832]' : 'w-1.5 bg-white/40 hover:bg-white/70'
+                      }`}
+                      aria-label={`Slide ${idx + 1}`}
+                    />
+                  ))}
+                </div>
 
                 {/* Floating Live Batch Spec Card Overlay */}
-                <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 bg-slate-950/90 backdrop-blur-md p-3 sm:p-3.5 rounded-xl border border-slate-800 text-white space-y-1 shadow-2xl">
+                <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 bg-slate-950/90 backdrop-blur-md p-3 sm:p-3.5 rounded-xl border border-slate-800 text-white space-y-1 shadow-2xl transition-all duration-500">
                   <div className="flex items-center justify-between text-[10px] sm:text-[11px] font-mono text-[#B97832]">
                     <span className="flex items-center gap-1">
-                      <Award className="w-3.5 h-3.5 text-[#B97832]" /> BATCH 2026-AUTUMN
+                      <Award className="w-3.5 h-3.5 text-[#B97832]" /> {activeSlide.batch}
                     </span>
                     <span className="px-2 py-0.5 bg-emerald-950/90 text-emerald-400 border border-emerald-800/80 rounded-md text-[9px] font-bold tracking-wider">
                       IN STOCK
                     </span>
                   </div>
-                  <h4 className="font-serif font-bold text-xs sm:text-sm text-white">
-                    Minimalist Luxury Apparel Lines
+                  <h4 className="font-serif font-bold text-xs sm:text-sm text-white transition-all">
+                    {activeSlide.title}
                   </h4>
                   <div className="flex items-center justify-between text-[11px] text-slate-300 font-mono pt-0.5">
-                    <span>Wholesale: <strong className="text-white font-display">₹680 - ₹1,450</strong> / PC</span>
-                    <span className="text-[9px] text-amber-400 bg-amber-950/50 px-1.5 py-0.5 rounded border border-amber-800/50">MOQ 30 PCS</span>
+                    <span>Wholesale: <strong className="text-white font-display">{activeSlide.price}</strong> / PC</span>
+                    <span className="text-[9px] text-amber-400 bg-amber-950/50 px-1.5 py-0.5 rounded border border-amber-800/50">MOQ {activeSlide.moq}</span>
                   </div>
                 </div>
               </div>

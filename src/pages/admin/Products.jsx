@@ -66,10 +66,10 @@ export function AdminProducts() {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen bg-slate-100 font-sans">
+    <div className="flex flex-col lg:flex-row min-h-screen lg:h-screen lg:overflow-hidden bg-slate-100 font-sans">
       <AdminSidebar />
 
-      <main className="flex-1 p-4 sm:p-6 lg:p-8 space-y-6 overflow-y-auto w-full max-w-full">
+      <main className="flex-1 p-4 sm:p-6 lg:p-8 space-y-6 overflow-y-auto w-full max-w-full h-full">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200">
           <div>
             <span className="text-xs font-mono font-bold tracking-widest text-amber-700 uppercase">

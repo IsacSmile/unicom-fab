@@ -114,7 +114,7 @@ export function AdminSidebar() {
       )}
 
       {/* Desktop Sidebar (lg screens) */}
-      <aside className="hidden lg:flex w-64 bg-brand-950 text-slate-300 min-h-screen border-r border-brand-800 shrink-0 sticky top-0 h-screen">
+      <aside className="hidden lg:flex w-64 bg-brand-950 text-slate-300 h-screen border-r border-brand-800 shrink-0 sticky top-0 overflow-y-auto">
         {sidebarContent}
       </aside>
     </>

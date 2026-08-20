@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, ArrowRight, ShieldCheck, Truck, Lock, CreditCard, ArrowUpRight, Award } from 'lucide-react';
+import { Mail, ArrowRight, ShieldCheck, Truck, Lock, CreditCard, ArrowUpRight, Award, Phone } from 'lucide-react';
 import { useToast } from '../../context/ToastContext';
 
 export function Footer() {
@@ -177,6 +177,15 @@ export function Footer() {
               <li>
                 <a href="mailto:wholesale@unicomfab.com" className="hover:text-slate-950 transition-colors">
                   wholesale@unicomfab.com
+                </a>
+              </li>
+              <li>
+                <a
+                  href="tel:+919304881360"
+                  className="hover:text-slate-950 transition-colors inline-flex items-center gap-1.5 font-bold text-slate-800"
+                >
+                  <Phone className="w-3.5 h-3.5 text-[#B97832]" />
+                  <span>+91 93048 81360</span>
                 </a>
               </li>
               <li>
