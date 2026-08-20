@@ -96,14 +96,14 @@ export function ProductDetail() {
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-        {/* Left Column: 4 Image Gallery */}
-        <div className="lg:col-span-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        {/* Left Column: 4 Image Gallery (Size reduced by ~40%) */}
+        <div className="lg:col-span-5 max-w-md mx-auto w-full">
           <ProductGallery images={product.images} name={product.name} />
         </div>
 
         {/* Right Column: Wholesale Specifications & Order Options */}
-        <div className="lg:col-span-6 space-y-6">
+        <div className="lg:col-span-7 space-y-6">
           {/* Header Info */}
           <div>
             <div className="flex flex-wrap items-center gap-2 mb-2">
