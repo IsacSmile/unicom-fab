@@ -103,17 +103,9 @@ npm install
 ```
 
 ### 3. Configure Environment Variables
-Copy `.env.example` to `.env`:
+Copy `.env.example` to `.env` and fill in your environment variables:
 ```bash
 cp .env.example .env
-```
-Ensure your `.env` contains:
-```env
-PORT=5000
-ADMIN_USER_ID=admin@unicomfab.com
-ADMIN_PASSWORD=admin123
-JWT_SECRET=unicom_fab_b2b_super_secret_jwt_key_2026
-DATABASE_URL=file:./server/db/unicom.db
 ```
 
 ### 4. Seed the Database
