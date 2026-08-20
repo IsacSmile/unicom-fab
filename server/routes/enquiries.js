@@ -4,7 +4,7 @@ import db from '../db/database.js';
 const router = express.Router();
 
 // POST Guest Wholesale Enquiry
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   const { name, companyName, email, phone, productName, requiredQuantity, message, country, city } = req.body;
 
   if (!name || !companyName || !email || !phone || !message) {
@@ -14,7 +14,7 @@ router.post('/', (req, res) => {
   const enquiryId = `ENQ-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
 
   try {
-    db.prepare(`
+    await db.prepare(`
       INSERT INTO enquiries (
         id, name, company_name, email, phone, product_name, required_quantity, message, country, city, status
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'New')

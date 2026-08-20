@@ -34,7 +34,7 @@ router.post('/admin/login', (req, res) => {
 });
 
 // Google Customer Authentication (Supports Live OAuth or Dev Direct Auth)
-router.post('/google', (req, res) => {
+router.post('/google', async (req, res) => {
   const { googleId, email, name, picture, companyName, phone } = req.body;
 
   if (!email || !name) {
@@ -43,49 +43,54 @@ router.post('/google', (req, res) => {
 
   const gid = googleId || `g_${Date.now()}`;
 
-  // Check if user exists
-  let user = db.prepare('SELECT * FROM users WHERE email = ?').get(email);
+  try {
+    // Check if user exists
+    let user = await db.prepare('SELECT * FROM users WHERE email = ?').get(email);
 
-  if (!user) {
-    const userId = `usr_${Date.now()}`;
-    db.prepare(`
-      INSERT INTO users (id, google_id, email, name, picture, company_name, phone)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
-    `).run(userId, gid, email, name, picture || '', companyName || '', phone || '');
+    if (!user) {
+      const userId = `usr_${Date.now()}`;
+      await db.prepare(`
+        INSERT INTO users (id, google_id, email, name, picture, company_name, phone)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+      `).run(userId, gid, email, name, picture || '', companyName || '', phone || '');
 
-    user = db.prepare('SELECT * FROM users WHERE id = ?').get(userId);
-  } else {
-    // Update profile info if provided
-    db.prepare(`
-      UPDATE users SET name = ?, picture = COALESCE(?, picture), company_name = COALESCE(?, company_name)
-      WHERE id = ?
-    `).run(name, picture || null, companyName || null, user.id);
-    user = db.prepare('SELECT * FROM users WHERE id = ?').get(user.id);
-  }
-
-  const token = jwt.sign(
-    { id: user.id, email: user.email, name: user.name, isAdmin: false },
-    JWT_SECRET,
-    { expiresIn: '30d' }
-  );
-
-  return res.json({
-    message: 'Authenticated successfully with Google',
-    token,
-    user: {
-      id: user.id,
-      email: user.email,
-      name: user.name,
-      picture: user.picture,
-      companyName: user.company_name,
-      phone: user.phone,
-      isAdmin: false
+      user = await db.prepare('SELECT * FROM users WHERE id = ?').get(userId);
+    } else {
+      // Update profile info if provided
+      await db.prepare(`
+        UPDATE users SET name = ?, picture = COALESCE(?, picture), company_name = COALESCE(?, company_name)
+        WHERE id = ?
+      `).run(name, picture || null, companyName || null, user.id);
+      user = await db.prepare('SELECT * FROM users WHERE id = ?').get(user.id);
     }
-  });
+
+    const token = jwt.sign(
+      { id: user.id, email: user.email, name: user.name, isAdmin: false },
+      JWT_SECRET,
+      { expiresIn: '30d' }
+    );
+
+    return res.json({
+      message: 'Authenticated successfully with Google',
+      token,
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        picture: user.picture,
+        companyName: user.company_name,
+        phone: user.phone,
+        isAdmin: false
+      }
+    });
+  } catch (err) {
+    console.error('Error in POST /api/auth/google:', err);
+    return res.status(500).json({ error: 'Authentication failed' });
+  }
 });
 
 // Verify Current Token / Session
-router.get('/me', (req, res) => {
+router.get('/me', async (req, res) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({ error: 'No active session token' });
@@ -104,7 +109,7 @@ router.get('/me', (req, res) => {
       });
     }
 
-    const user = db.prepare('SELECT * FROM users WHERE id = ?').get(decoded.id);
+    const user = await db.prepare('SELECT * FROM users WHERE id = ?').get(decoded.id);
     if (!user) {
       return res.status(404).json({ error: 'User account not found' });
     }
