@@ -101,21 +101,21 @@ export function Home() {
       {/* Customer Trust Stories */}
       <TrustSection />
 
-      {/* Bottom CTA */}
-      <section className="py-20 bg-brand-950 text-white text-center border-t border-brand-800 relative">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-          <span className="text-xs font-mono font-bold tracking-widest text-luxury-gold uppercase">
+      {/* Bottom CTA Section */}
+      <section className="py-16 sm:py-20 bg-[#FAF9F6] text-slate-900 text-center border-t border-slate-200/90 relative font-neue">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5">
+          <span className="text-xs font-mono font-bold tracking-widest text-[#B97832] uppercase">
             PAN-INDIA & GLOBAL WHOLESALE SUPPLY
           </span>
-          <h2 className="font-serif text-4xl sm:text-5xl font-bold text-white tracking-tight">
+          <h2 className="font-serif text-3xl sm:text-5xl font-bold text-slate-950 tracking-tight">
             READY TO STOCK YOUR BUSINESS?
           </h2>
-          <p className="text-slate-300 text-base sm:text-lg font-light leading-relaxed max-w-2xl mx-auto">
+          <p className="text-slate-600 text-sm sm:text-base font-light leading-relaxed max-w-2xl mx-auto">
             Browse our complete catalogue of premium apparel, inspect detailed batch numbers, and place your bulk order online in minutes.
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-3">
             <Link to="/catalogue">
-              <Button size="lg" variant="gold" icon={ArrowRight} className="font-bold">
+              <Button size="lg" variant="gold" icon={ArrowRight} className="font-bold shadow-md">
                 Browse Catalogue
               </Button>
             </Link>
@@ -124,7 +124,7 @@ export function Home() {
               size="lg"
               variant="outline"
               icon={Send}
-              className="text-white border-slate-600 hover:border-white hover:bg-white hover:text-brand-950"
+              className="text-slate-900 border-slate-300 bg-white hover:bg-slate-950 hover:text-white hover:border-slate-950 font-semibold shadow-2xs"
             >
               Send Wholesale Enquiry
             </Button>
