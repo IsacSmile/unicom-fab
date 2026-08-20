@@ -66,27 +66,27 @@ export function AdminProducts() {
   };
 
   return (
-    <div className="flex min-h-screen bg-slate-100 font-sans">
+    <div className="flex flex-col lg:flex-row min-h-screen bg-slate-100 font-sans">
       <AdminSidebar />
 
-      <main className="flex-1 p-8 space-y-6 overflow-y-auto">
+      <main className="flex-1 p-4 sm:p-6 lg:p-8 space-y-6 overflow-y-auto w-full max-w-full">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200">
           <div>
             <span className="text-xs font-mono font-bold tracking-widest text-amber-700 uppercase">
               WHOLESALE CATALOGUE MANAGMENT
             </span>
-            <h1 className="font-serif text-3xl font-bold text-brand-950 mt-1">
+            <h1 className="font-serif text-2xl sm:text-3xl font-bold text-brand-950 mt-1">
               Product Catalogue & Merchandising
             </h1>
           </div>
 
-          <Button onClick={handleOpenCreate} variant="primary" icon={Plus} size="md">
+          <Button onClick={handleOpenCreate} variant="primary" icon={Plus} size="md" className="w-full sm:w-auto">
             Create Wholesale Product
           </Button>
         </div>
 
         {/* Search & Actions Bar */}
-        <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between gap-4">
+        <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4">
           <div className="relative flex-1 max-w-md">
             <input
               type="text"
@@ -98,7 +98,7 @@ export function AdminProducts() {
             <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
           </div>
 
-          <span className="text-xs font-mono text-slate-500 font-semibold">
+          <span className="text-xs font-mono text-slate-500 font-semibold text-right">
             {products.length} Products Registered
           </span>
         </div>

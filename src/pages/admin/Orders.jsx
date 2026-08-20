@@ -44,16 +44,16 @@ export function AdminOrders() {
   };
 
   return (
-    <div className="flex min-h-screen bg-slate-100 font-sans">
+    <div className="flex flex-col lg:flex-row min-h-screen bg-slate-100 font-sans">
       <AdminSidebar />
 
-      <main className="flex-1 p-8 space-y-6 overflow-y-auto">
+      <main className="flex-1 p-4 sm:p-6 lg:p-8 space-y-6 overflow-y-auto w-full max-w-full">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200">
           <div>
             <span className="text-xs font-mono font-bold tracking-widest text-amber-700 uppercase">
               ORDER FULFILMENT
             </span>
-            <h1 className="font-serif text-3xl font-bold text-brand-950 mt-1">
+            <h1 className="font-serif text-2xl sm:text-3xl font-bold text-brand-950 mt-1">
               Wholesale Purchase Orders
             </h1>
           </div>

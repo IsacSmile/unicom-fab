@@ -86,7 +86,7 @@ export function OrderDetailsModal({ isOpen, onClose, order, onStatusUpdated }) {
             Ordered Variants ({order.totalQuantity} PCS Total)
           </h4>
 
-          <div className="border border-slate-200 rounded-xl overflow-hidden">
+          <div className="border border-slate-200 rounded-xl overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-slate-100 border-b border-slate-200 text-[10px] font-mono font-bold text-slate-500 uppercase">

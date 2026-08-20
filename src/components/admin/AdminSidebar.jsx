@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Package, ShoppingCart, MessageSquare, ArrowLeft, Settings, ShieldCheck } from 'lucide-react';
+import { LayoutDashboard, Package, ShoppingCart, MessageSquare, ArrowLeft, Menu, X, ShieldCheck } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 export function AdminSidebar() {
   const location = useLocation();
   const { logout } = useAuth();
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const links = [
     { name: 'Overview Stats', path: '/admin', icon: LayoutDashboard },
@@ -14,16 +15,27 @@ export function AdminSidebar() {
     { name: 'B2B Enquiries', path: '/admin/enquiries', icon: MessageSquare },
   ];
 
-  return (
-    <aside className="w-64 bg-brand-950 text-slate-300 min-h-screen p-5 flex flex-col justify-between border-r border-brand-800">
+  const sidebarContent = (
+    <div className="h-full p-5 flex flex-col justify-between space-y-6">
       <div className="space-y-6">
         {/* Brand Header */}
-        <div className="flex items-center gap-3 pb-5 border-b border-brand-800">
-          <img
-            src="/unicom-fab-main-logo.png"
-            alt="UNICOM FAB"
-            className="h-8 w-auto object-contain rounded-lg shadow-2xs"
-          />
+        <div className="flex items-center justify-between pb-5 border-b border-brand-800">
+          <div className="flex items-center gap-3">
+            <img
+              src="/unicom-fab-main-logo.png"
+              alt="UNICOM FAB"
+              className="h-8 w-auto object-contain rounded-lg shadow-2xs"
+            />
+            <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 uppercase">
+              Admin
+            </span>
+          </div>
+          <button
+            onClick={() => setMobileOpen(false)}
+            className="lg:hidden p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-brand-900"
+          >
+            <X className="w-5 h-5" />
+          </button>
         </div>
 
         {/* Links */}
@@ -35,6 +47,7 @@ export function AdminSidebar() {
               <Link
                 key={link.path}
                 to={link.path}
+                onClick={() => setMobileOpen(false)}
                 className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all ${
                   isActive
                     ? 'bg-amber-600 text-white font-bold shadow-md'
@@ -64,6 +77,46 @@ export function AdminSidebar() {
           Admin Sign Out
         </button>
       </div>
-    </aside>
+    </div>
+  );
+
+  return (
+    <>
+      {/* Mobile Top Header Navigation */}
+      <div className="lg:hidden bg-brand-950 text-slate-200 border-b border-brand-800 px-4 py-3 flex items-center justify-between sticky top-0 z-30 shadow-md">
+        <div className="flex items-center gap-2.5">
+          <img
+            src="/unicom-fab-main-logo.png"
+            alt="UNICOM FAB"
+            className="h-7 w-auto object-contain rounded"
+          />
+          <span className="font-mono text-xs font-bold text-amber-400">ADMIN CONTROL</span>
+        </div>
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="p-2 rounded-lg bg-brand-900 text-slate-200 hover:text-white hover:bg-brand-800 focus:outline-none"
+        >
+          {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        </button>
+      </div>
+
+      {/* Mobile Drawer Overlay */}
+      {mobileOpen && (
+        <div className="fixed inset-0 z-40 lg:hidden">
+          <div
+            className="fixed inset-0 bg-slate-950/70 backdrop-blur-xs transition-opacity"
+            onClick={() => setMobileOpen(false)}
+          />
+          <aside className="fixed inset-y-0 left-0 w-72 bg-brand-950 text-slate-300 z-50 shadow-2xl overflow-y-auto">
+            {sidebarContent}
+          </aside>
+        </div>
+      )}
+
+      {/* Desktop Sidebar (lg screens) */}
+      <aside className="hidden lg:flex w-64 bg-brand-950 text-slate-300 min-h-screen border-r border-brand-800 shrink-0 sticky top-0 h-screen">
+        {sidebarContent}
+      </aside>
+    </>
   );
 }

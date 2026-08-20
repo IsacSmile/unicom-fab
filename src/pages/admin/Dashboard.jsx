@@ -37,15 +37,15 @@ export function AdminDashboard() {
   }, []);
 
   return (
-    <div className="flex min-h-screen bg-slate-100 font-sans">
+    <div className="flex flex-col lg:flex-row min-h-screen bg-slate-100 font-sans">
       <AdminSidebar />
 
-      <main className="flex-1 p-8 space-y-8 overflow-y-auto">
+      <main className="flex-1 p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 overflow-y-auto w-full max-w-full">
         <div>
           <span className="text-xs font-mono font-bold tracking-widest text-amber-700 uppercase">
             EXECUTIVE METRICS OVERVIEW
           </span>
-          <h1 className="font-serif text-3xl font-bold text-brand-950 mt-1">
+          <h1 className="font-serif text-2xl sm:text-3xl font-bold text-brand-950 mt-1">
             System Control & Wholesale Analytics
           </h1>
         </div>
@@ -60,8 +60,8 @@ export function AdminDashboard() {
         ) : (
           <>
             {/* Metric KPI Cards Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+              <div className="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
                 <div>
                   <span className="text-xs font-mono font-semibold text-slate-400 uppercase">Total Catalogue Items</span>
                   <div className="font-display font-bold text-3xl text-brand-950 mt-1">{stats?.totalProducts ?? 0}</div>

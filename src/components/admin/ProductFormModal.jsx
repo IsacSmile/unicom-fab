@@ -159,7 +159,7 @@ export function ProductFormModal({ isOpen, onClose, productToEdit, onSaved }) {
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block font-bold text-slate-700 mb-1">Category</label>
             <select
@@ -203,7 +203,7 @@ export function ProductFormModal({ isOpen, onClose, productToEdit, onSaved }) {
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block font-bold text-slate-700 mb-1">Wholesale Rate (₹ / PC) *</label>
             <input
@@ -230,7 +230,7 @@ export function ProductFormModal({ isOpen, onClose, productToEdit, onSaved }) {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
             <label className="block font-bold text-slate-700 mb-1">Current Stock (PCS)</label>
             <input
@@ -265,7 +265,7 @@ export function ProductFormModal({ isOpen, onClose, productToEdit, onSaved }) {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block font-bold text-slate-700 mb-1">Available Colours (comma separated)</label>
             <input
@@ -294,7 +294,7 @@ export function ProductFormModal({ isOpen, onClose, productToEdit, onSaved }) {
           <label className="block font-bold text-slate-700">
             Product Images (Strict Maximum 4 Image URLs)
           </label>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {[0, 1, 2, 3].map((idx) => (
               <div key={idx}>
                 <span className="text-[10px] text-slate-400 font-mono block mb-0.5">Image {idx + 1} URL</span>
@@ -311,7 +311,7 @@ export function ProductFormModal({ isOpen, onClose, productToEdit, onSaved }) {
         </div>
 
         {/* Merchandising Toggles */}
-        <div className="flex items-center gap-6 pt-2 border-t border-slate-200">
+        <div className="flex flex-wrap items-center gap-4 sm:gap-6 pt-2 border-t border-slate-200">
           <label className="flex items-center gap-2 cursor-pointer font-semibold text-slate-700">
             <input
               type="checkbox"
