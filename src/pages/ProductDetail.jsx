@@ -119,18 +119,18 @@ export function ProductDetail() {
               </span>
             </div>
 
-            <h1 className="font-serif font-bold text-3xl sm:text-4xl text-brand-950 leading-tight">
+            <h1 className="font-serif font-bold text-xl sm:text-2xl lg:text-3xl text-slate-950 leading-snug">
               {product.name}
             </h1>
 
-            <div className="mt-4 flex items-baseline gap-3 pb-4 border-b border-slate-200">
-              <span className="text-xs text-slate-400 font-semibold uppercase">Wholesale Price:</span>
-              <span className="font-display font-bold text-3xl text-brand-950">
+            <div className="mt-3 flex items-baseline gap-3 pb-3 border-b border-slate-200">
+              <span className="text-[11px] text-slate-400 font-semibold uppercase font-mono">Wholesale Price:</span>
+              <span className="font-display font-bold text-xl sm:text-2xl text-slate-950">
                 {formatCurrency(product.wholesalePrice)}
-                <span className="text-sm font-normal text-slate-500"> / PC</span>
+                <span className="text-xs font-normal text-slate-500"> / PC</span>
               </span>
               {product.suggestedMsrp && (
-                <span className="text-xs text-slate-400 line-through">
+                <span className="text-[11px] text-slate-400 line-through font-mono">
                   MSRP: {formatCurrency(product.suggestedMsrp)}
                 </span>
               )}
@@ -138,13 +138,13 @@ export function ProductDetail() {
           </div>
 
           {/* Description */}
-          <div className="text-slate-600 text-sm leading-relaxed space-y-2">
-            <h4 className="text-xs font-bold uppercase text-slate-400 font-mono">Garment & Batch Specs</h4>
+          <div className="text-slate-600 text-xs sm:text-sm leading-relaxed space-y-1.5">
+            <h4 className="text-[10px] font-bold uppercase text-slate-400 font-mono tracking-wider">Garment & Batch Specs</h4>
             <p>{product.description}</p>
           </div>
 
           {/* Variants Selectors */}
-          <div className="space-y-5 p-5 bg-slate-50 rounded-2xl border border-slate-200">
+          <div className="space-y-4 p-4 sm:p-5 bg-slate-50/90 rounded-2xl border border-slate-200/90">
             {/* Colour Selector */}
             <ColourSelector
               colours={product.colours}
@@ -170,34 +170,32 @@ export function ProductDetail() {
           </div>
 
           {/* Total Line Pricing Summary */}
-          <div className="p-4 bg-brand-950 text-white rounded-xl flex items-center justify-between">
+          <div className="p-3.5 bg-slate-950 text-white rounded-xl flex items-center justify-between">
             <div>
-              <span className="text-xs text-slate-400 block font-mono">Line Estimated Total ({quantity} PCS)</span>
-              <span className="font-display font-bold text-2xl text-luxury-gold">
+              <span className="text-[10px] text-slate-400 block font-mono">Line Estimated Total ({quantity} PCS)</span>
+              <span className="font-display font-bold text-xl sm:text-2xl text-amber-400">
                 {formatCurrency(product.wholesalePrice * quantity)}
               </span>
             </div>
-            <span className="text-xs font-mono text-slate-400">Excl. Freight Tax</span>
+            <span className="text-[10px] font-mono text-slate-400">Excl. Freight Tax</span>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
+          <div className="flex flex-col sm:flex-row items-center gap-2.5 pt-1">
             <Button
               onClick={handleAddToCart}
-              size="lg"
               variant="primary"
               icon={ShoppingBag}
               disabled={product.stockQuantity <= 0}
-              className="w-full sm:flex-1 font-bold text-sm"
+              className="w-full sm:flex-1 font-bold text-xs sm:text-sm py-2.5 bg-[#B97832] hover:bg-amber-800 text-white shadow-sm"
             >
               Add to Wholesale Order
             </Button>
             <Button
               onClick={() => setEnquiryOpen(true)}
-              size="lg"
               variant="outline"
               icon={Send}
-              className="w-full sm:w-auto text-xs"
+              className="w-full sm:w-auto text-xs py-2.5"
             >
               Send Enquiry
             </Button>
