@@ -1,6 +1,68 @@
-import React from 'react';
-import { Plus, Minus, Layers } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Plus, Minus, Layers, ChevronDown } from 'lucide-react';
 import { calculateAllowedQuantities } from '../../lib/utils';
+
+function CustomQuantitySelect({ value, onChange, options, minOrderQuantity }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  return (
+    <div className="relative font-neue" ref={dropdownRef}>
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className="py-2.5 pl-3.5 pr-8 border border-slate-300 rounded-xl text-xs font-semibold text-slate-800 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-900 transition-all flex items-center justify-between shadow-2xs cursor-pointer min-w-[155px]"
+      >
+        <span className="truncate">
+          {value} PCS {value === minOrderQuantity ? '(MOQ)' : ''}
+        </span>
+        <ChevronDown className={`w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-3.5 transition-transform duration-200 ${isOpen ? 'rotate-180 text-slate-900' : ''}`} />
+      </button>
+
+      {isOpen && (
+        <div className="absolute right-0 top-full mt-1.5 w-48 max-h-48 overflow-y-auto bg-white rounded-2xl shadow-2xl border border-slate-200 z-50 p-1.5 space-y-1 font-neue animate-fade-in custom-scrollbar">
+          {options.map((qty) => {
+            const isSel = qty === value;
+            return (
+              <button
+                key={qty}
+                type="button"
+                onClick={() => {
+                  onChange(qty);
+                  setIsOpen(false);
+                }}
+                className={`w-full text-left px-3 py-2 rounded-xl text-xs font-semibold transition-colors flex items-center justify-between ${
+                  isSel
+                    ? 'bg-slate-950 text-white font-bold'
+                    : 'text-slate-700 hover:bg-slate-100 hover:text-slate-950'
+                }`}
+              >
+                <span>{qty} PCS</span>
+                {qty === minOrderQuantity && (
+                  <span className={`text-[9px] font-mono uppercase px-1.5 py-0.5 rounded font-bold ${
+                    isSel ? 'bg-amber-400/20 text-amber-300' : 'bg-amber-100 text-amber-800'
+                  }`}>
+                    MOQ
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export function QuantitySelector({ quantity, onChange, minOrderQuantity = 30, quantityStep = 5, stockQuantity = 1000 }) {
   const allowed = calculateAllowedQuantities(minOrderQuantity, quantityStep, stockQuantity, 30);
@@ -25,9 +87,6 @@ export function QuantitySelector({ quantity, onChange, minOrderQuantity = 30, qu
         <span className="flex items-center gap-1.5">
           <Layers className="w-4 h-4 text-amber-700" />
           <span>Select Bulk Quantity (PCS)</span>
-        </span>
-        <span className="text-slate-400 font-mono">
-          Step Increment: +{quantityStep} PCS
         </span>
       </div>
 
@@ -55,18 +114,13 @@ export function QuantitySelector({ quantity, onChange, minOrderQuantity = 30, qu
           </button>
         </div>
 
-        {/* Quick Dropdown Picker */}
-        <select
+        {/* Custom Glassmorphic Dropdown Picker */}
+        <CustomQuantitySelect
           value={quantity}
-          onChange={(e) => onChange(parseInt(e.target.value))}
-          className="py-2.5 px-3 border border-slate-300 rounded-xl text-xs font-semibold text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-brand-950"
-        >
-          {allowed.map((qty) => (
-            <option key={qty} value={qty}>
-              {qty} PCS {qty === minOrderQuantity ? '(MOQ Minimum)' : ''}
-            </option>
-          ))}
-        </select>
+          onChange={onChange}
+          options={allowed}
+          minOrderQuantity={minOrderQuantity}
+        />
       </div>
 
       <p className="text-[11px] text-slate-400">

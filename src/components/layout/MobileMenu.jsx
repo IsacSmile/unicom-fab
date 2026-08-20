@@ -53,14 +53,13 @@ export function MobileMenu({ isOpen, onClose, navLinks }) {
       aria-modal="true"
     >
       {/* Top Header Bar inside Drawer */}
-      <div className="flex items-center justify-between px-5 py-4 border-b border-[#E7E3DA] bg-[#FAF9F6]">
+      <div className="flex items-center justify-between px-5 py-3.5 border-b border-[#E7E3DA] bg-[#FAF9F6]">
         <Link to="/" onClick={onClose} className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-xl bg-[#101828] flex items-center justify-center text-[#B97832] font-serif font-bold text-lg">
-            U
-          </div>
-          <span className="font-serif font-bold text-lg text-[#101828] tracking-tight">
-            UNICOM<span className="text-[#B97832]">FAB</span>
-          </span>
+          <img
+            src="/unicom-fab-main-logo.png"
+            alt="UNICOM FAB"
+            className="h-7 sm:h-8 w-auto object-contain rounded-lg shadow-2xs"
+          />
         </Link>
 
         <button
@@ -91,12 +90,25 @@ export function MobileMenu({ isOpen, onClose, navLinks }) {
           <div className="p-4 bg-[#F5F3EE] border border-[#E7E3DA] rounded-2xl flex items-center justify-between gap-3">
             <div className="flex items-center gap-3 min-w-0">
               {user.picture ? (
-                <img src={user.picture} alt={user.name} className="w-10 h-10 rounded-full object-cover border border-[#E7E3DA]" />
-              ) : (
-                <div className="w-10 h-10 rounded-full bg-[#101828] text-white font-bold flex items-center justify-center text-sm">
-                  {user.name.charAt(0)}
-                </div>
-              )}
+                <img
+                  src={user.picture}
+                  alt={user.name}
+                  referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                    if (e.currentTarget.nextSibling) {
+                      e.currentTarget.nextSibling.style.display = 'flex';
+                    }
+                  }}
+                  className="w-10 h-10 rounded-full object-cover border border-[#E7E3DA] shrink-0"
+                />
+              ) : null}
+              <div
+                className="w-10 h-10 rounded-full bg-[#101828] text-white font-bold flex items-center justify-center text-sm shrink-0"
+                style={{ display: user.picture ? 'none' : 'flex' }}
+              >
+                {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
+              </div>
               <div className="min-w-0">
                 <p className="text-sm font-bold text-[#101828] truncate">{user.name}</p>
                 <p className="text-xs text-[#667085] truncate">{user.email}</p>
@@ -110,8 +122,8 @@ export function MobileMenu({ isOpen, onClose, navLinks }) {
           </div>
         )}
 
-        {/* Large Navigation Links */}
-        <nav className="space-y-2 pt-2">
+        {/* Navigation Links (Sharp & Smooth Mobile Font Sizing) */}
+        <nav className="space-y-1.5 pt-2">
           {navLinks.map((link) => {
             const isActive = location.pathname === link.path;
             return (
@@ -119,7 +131,7 @@ export function MobileMenu({ isOpen, onClose, navLinks }) {
                 key={link.path}
                 to={link.path}
                 onClick={onClose}
-                className={`flex items-center justify-between px-4 py-3.5 rounded-xl text-base font-semibold transition-colors ${
+                className={`flex items-center justify-between px-3.5 py-3 rounded-xl text-sm sm:text-base font-semibold transition-colors ${
                   isActive
                     ? 'bg-[#101828] text-white font-bold'
                     : 'text-[#101828] hover:bg-[#F5F3EE]'
@@ -127,8 +139,7 @@ export function MobileMenu({ isOpen, onClose, navLinks }) {
               >
                 <span>{link.name}</span>
                 {link.path === '/my-order' && (
-                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-[#B97832] text-white text-xs font-bold rounded-full">
-                    <ShoppingBag className="w-3.5 h-3.5" />
+                  <span className="inline-flex items-center justify-center min-w-[20px] px-2 py-0.5 bg-[#B97832] text-white text-[11px] font-bold rounded-full">
                     {totalQuantityCount > 0 ? `${totalQuantityCount} PCS` : '0'}
                   </span>
                 )}

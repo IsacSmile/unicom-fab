@@ -4,7 +4,7 @@ import { ProductGrid } from '../components/products/ProductGrid';
 import { FilterDrawer } from '../components/products/FilterDrawer';
 import { Button } from '../components/common/Button';
 import { api } from '../lib/api';
-import { Filter, Search, RotateCcw, SlidersHorizontal } from 'lucide-react';
+import { Search, SlidersHorizontal, X, Sparkles, ChevronDown } from 'lucide-react';
 
 export function Catalogue() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -26,7 +26,7 @@ export function Catalogue() {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
   const [filterOptions, setFilterOptions] = useState({ categories: [], colours: [], sizes: [] });
-  const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+  const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
 
   // Load Meta Filter Options once
   useEffect(() => {
@@ -83,7 +83,7 @@ export function Catalogue() {
     } else {
       newParams.delete(key);
     }
-    newParams.set('page', '1'); // Reset to page 1 on filter change
+    newParams.set('page', '1');
     setSearchParams(newParams);
   };
 
@@ -91,148 +91,216 @@ export function Catalogue() {
     setSearchParams({});
   };
 
-  const hasActiveFilters = Boolean(
-    category || size || colour || inStockOnly || trendingOnly || newArrivalOnly || searchQuery
-  );
+  // Active Filter Count calculation
+  const activeFilterCount = [
+    category,
+    size,
+    colour,
+    inStockOnly ? 'inStock' : null,
+    trendingOnly ? 'trending' : null,
+    newArrivalOnly ? 'newArrival' : null,
+    searchQuery ? 'search' : null,
+  ].filter(Boolean).length;
+
+  const hasActiveFilters = activeFilterCount > 0;
 
   return (
-    <div className="py-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      {/* Header Banner */}
-      <div className="mb-8 pb-6 border-b border-slate-200">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div>
-            <span className="text-xs font-mono font-bold tracking-widest text-amber-700 uppercase">
-              B2B WHOLESALE CATALOGUE
-            </span>
-            <h1 className="font-serif text-3xl sm:text-4xl font-bold text-brand-950 mt-1">
-              Explore Apparel Lines & Batches
-            </h1>
-            <p className="text-slate-500 text-sm mt-1">
-              Showing {products.length} of {total} verified wholesale items
-            </p>
+    <div className="relative min-h-screen py-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Background Golden Halo Glows */}
+      <div className="pointer-events-none absolute top-10 left-1/2 -translate-x-1/2 w-[800px] h-[350px] bg-gradient-to-b from-[#B97832]/12 via-amber-200/10 to-transparent blur-3xl -z-10 rounded-full" />
+      <div className="pointer-events-none absolute top-96 right-0 w-[450px] h-[450px] bg-gradient-to-br from-[#B97832]/8 to-transparent blur-3xl -z-10 rounded-full" />
+
+      {/* Hero Catalogue Title */}
+      <div className="text-center max-w-3xl mx-auto mb-10 space-y-3">
+        <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#B97832]/10 border border-[#B97832]/20 rounded-full text-amber-800 text-xs font-mono font-bold tracking-widest uppercase">
+          <Sparkles className="w-3.5 h-3.5 text-[#B97832]" />
+          <span>UNICOM WHOLESALE CATALOGUE</span>
+        </div>
+        <h1 className="font-serif text-3xl sm:text-5xl font-bold text-slate-900 tracking-tight">
+          Curated Apparel Lines
+        </h1>
+        <p className="text-slate-500 text-sm sm:text-base max-w-xl mx-auto font-light">
+          Premium B2B wholesale manufacturing lines. Verified batch standards, tier-based pricing, and Pan-India direct dispatch.
+        </p>
+      </div>
+
+      {/* Minimalist Top Filter Controls Bar */}
+      <div className="sticky top-20 z-20 bg-white/80 backdrop-blur-md p-4 rounded-2xl border border-slate-200/80 shadow-sm mb-8 space-y-4">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          
+          {/* Category Horizontal Quick Selector Pills */}
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
+            <button
+              onClick={() => updateParam('category', '')}
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all duration-200 ${
+                !category
+                  ? 'bg-slate-900 text-white shadow-xs'
+                  : 'bg-slate-100/80 text-slate-600 hover:bg-slate-200/80'
+              }`}
+            >
+              All Apparel ({total})
+            </button>
+            {filterOptions.categories.map((cat) => {
+              const isSelected = category === cat;
+              return (
+                <button
+                  key={cat}
+                  onClick={() => updateParam('category', isSelected ? '' : cat)}
+                  className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all duration-200 ${
+                    isSelected
+                      ? 'bg-[#B97832] text-white shadow-xs'
+                      : 'bg-slate-100/80 text-slate-600 hover:bg-slate-200/80'
+                  }`}
+                >
+                  {cat}
+                </button>
+              );
+            })}
           </div>
 
-          {/* Search Bar Inline */}
-          <div className="flex items-center gap-3">
-            <div className="relative flex-1 md:w-72">
+          {/* Search Bar & Filter Drawer Toggle */}
+          <div className="flex items-center gap-3 shrink-0">
+            {/* Search Input */}
+            <div className="relative flex-1 sm:w-64">
               <input
                 type="text"
-                placeholder="Search catalogue by name or batch..."
+                placeholder="Search catalogue..."
                 value={searchQuery}
                 onChange={(e) => updateParam('search', e.target.value)}
-                className="w-full pl-9 pr-4 py-2 text-xs border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-950 bg-white"
+                className="w-full pl-9 pr-8 py-2 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#B97832] bg-white"
               />
               <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+              {searchQuery && (
+                <button
+                  onClick={() => updateParam('search', '')}
+                  className="absolute right-2.5 top-2.5 text-slate-400 hover:text-slate-600"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
             </div>
 
-            {/* Mobile Filter Button */}
+            {/* Quick Sort Dropdown */}
+            <div className="relative">
+              <select
+                value={sortOption}
+                onChange={(e) => updateParam('sort', e.target.value)}
+                className="py-2 pl-3 pr-8 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#B97832] appearance-none cursor-pointer shadow-2xs hover:border-slate-300 transition-colors"
+              >
+                <option value="newest">Newest First</option>
+                <option value="popular">Most Popular</option>
+                <option value="stock">High Stock</option>
+                <option value="name-asc">Name A-Z</option>
+              </select>
+              <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-3 pointer-events-none stroke-[2]" />
+            </div>
+
+            {/* Slide-over Filter Trigger Button */}
             <button
-              onClick={() => setMobileFilterOpen(true)}
-              className="lg:hidden p-2 bg-brand-950 text-white rounded-xl flex items-center gap-1.5 text-xs font-bold shrink-0"
+              onClick={() => setFilterDrawerOpen(true)}
+              className={`px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-2 transition-all shadow-2xs ${
+                hasActiveFilters
+                  ? 'bg-[#B97832] text-white'
+                  : 'bg-slate-900 text-white hover:bg-slate-800'
+              }`}
             >
-              <SlidersHorizontal className="w-4 h-4" /> Filters
+              <SlidersHorizontal className="w-3.5 h-3.5" />
+              <span>Filters</span>
+              {activeFilterCount > 0 && (
+                <span className="w-4 h-4 bg-white text-[#B97832] rounded-full text-[10px] font-bold flex items-center justify-center">
+                  {activeFilterCount}
+                </span>
+              )}
             </button>
           </div>
         </div>
 
-        {/* Active Filter Pills */}
+        {/* Active Filter Badges Bar */}
         {hasActiveFilters && (
-          <div className="flex flex-wrap items-center gap-2 pt-4 mt-4 border-t border-slate-100">
-            <span className="text-xs font-semibold text-slate-400 uppercase">Active Filters:</span>
+          <div className="flex flex-wrap items-center gap-2 pt-3 border-t border-slate-100 text-xs">
+            <span className="font-mono font-bold text-slate-400 text-[10px] uppercase">Active:</span>
+
             {category && (
-              <span className="px-2.5 py-1 bg-brand-900 text-white text-xs rounded-full font-medium flex items-center gap-1">
-                Cat: {category}
-                <button onClick={() => updateParam('category', '')}>×</button>
+              <span className="px-2.5 py-1 bg-slate-900 text-white rounded-lg font-medium flex items-center gap-1.5">
+                Category: {category}
+                <button onClick={() => updateParam('category', '')} className="hover:text-amber-400">×</button>
               </span>
             )}
             {size && (
-              <span className="px-2.5 py-1 bg-brand-900 text-white text-xs rounded-full font-medium flex items-center gap-1">
+              <span className="px-2.5 py-1 bg-slate-900 text-white rounded-lg font-medium flex items-center gap-1.5">
                 Size: {size}
-                <button onClick={() => updateParam('size', '')}>×</button>
+                <button onClick={() => updateParam('size', '')} className="hover:text-amber-400">×</button>
               </span>
             )}
             {colour && (
-              <span className="px-2.5 py-1 bg-brand-900 text-white text-xs rounded-full font-medium flex items-center gap-1">
+              <span className="px-2.5 py-1 bg-slate-900 text-white rounded-lg font-medium flex items-center gap-1.5">
                 Colour: {colour}
-                <button onClick={() => updateParam('colour', '')}>×</button>
+                <button onClick={() => updateParam('colour', '')} className="hover:text-amber-400">×</button>
               </span>
             )}
             {inStockOnly && (
-              <span className="px-2.5 py-1 bg-emerald-800 text-white text-xs rounded-full font-medium flex items-center gap-1">
+              <span className="px-2.5 py-1 bg-emerald-800 text-white rounded-lg font-medium flex items-center gap-1.5">
                 In Stock Only
-                <button onClick={() => updateParam('inStock', '')}>×</button>
+                <button onClick={() => updateParam('inStock', '')} className="hover:text-amber-400">×</button>
+              </span>
+            )}
+            {trendingOnly && (
+              <span className="px-2.5 py-1 bg-amber-800 text-white rounded-lg font-medium flex items-center gap-1.5">
+                Trending Lines
+                <button onClick={() => updateParam('trending', '')} className="hover:text-amber-400">×</button>
+              </span>
+            )}
+            {newArrivalOnly && (
+              <span className="px-2.5 py-1 bg-blue-900 text-white rounded-lg font-medium flex items-center gap-1.5">
+                New Arrivals
+                <button onClick={() => updateParam('newArrival', '')} className="hover:text-amber-400">×</button>
               </span>
             )}
             {searchQuery && (
-              <span className="px-2.5 py-1 bg-amber-800 text-white text-xs rounded-full font-medium flex items-center gap-1">
-                Query: "{searchQuery}"
-                <button onClick={() => updateParam('search', '')}>×</button>
+              <span className="px-2.5 py-1 bg-[#B97832] text-white rounded-lg font-medium flex items-center gap-1.5">
+                "{searchQuery}"
+                <button onClick={() => updateParam('search', '')} className="hover:text-slate-200">×</button>
               </span>
             )}
+
             <button
               onClick={resetAllFilters}
-              className="text-xs text-red-600 hover:text-red-800 font-bold ml-2 underline"
+              className="text-xs text-red-600 hover:text-red-800 font-bold ml-auto underline"
             >
-              Clear All
+              Reset All
             </button>
           </div>
         )}
       </div>
 
-      {/* Layout Grid: Sidebar Filters (Desktop) + Product Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        {/* Desktop Sidebar Filters */}
-        <div className="hidden lg:block">
-          <FilterDrawer
-            isOpen={false}
-            filterOptions={filterOptions}
-            selectedCategory={category}
-            setSelectedCategory={(val) => updateParam('category', val)}
-            selectedSize={size}
-            setSelectedSize={(val) => updateParam('size', val)}
-            selectedColour={colour}
-            setSelectedColour={(val) => updateParam('colour', val)}
-            inStockOnly={inStockOnly}
-            setInStockOnly={(val) => updateParam('inStock', val ? 'true' : '')}
-            trendingOnly={trendingOnly}
-            setTrendingOnly={(val) => updateParam('trending', val ? 'true' : '')}
-            newArrivalOnly={newArrivalOnly}
-            setNewArrivalOnly={(val) => updateParam('newArrival', val ? 'true' : '')}
-            sortOption={sortOption}
-            setSortOption={(val) => updateParam('sort', val)}
-            onResetFilters={resetAllFilters}
-          />
-        </div>
+      {/* Main Catalogue Product Grid (100% Clean & Wide View) */}
+      <div className="space-y-10">
+        <ProductGrid
+          products={products}
+          loading={loading && page === 1}
+          onClearFilters={resetAllFilters}
+        />
 
-        {/* Product Grid & Load More */}
-        <div className="lg:col-span-3 space-y-8">
-          <ProductGrid
-            products={products}
-            loading={loading && page === 1}
-            onClearFilters={resetAllFilters}
-          />
-
-          {/* Pagination / Load More Button */}
-          {page < totalPages && (
-            <div className="text-center pt-6">
-              <Button
-                onClick={() => updateParam('page', (page + 1).toString())}
-                loading={loading}
-                variant="outline"
-                size="lg"
-                className="min-w-[200px]"
-              >
-                Load More Products ({total - products.length} Remaining)
-              </Button>
-            </div>
-          )}
-        </div>
+        {/* Load More Pagination */}
+        {page < totalPages && (
+          <div className="text-center pt-8">
+            <Button
+              onClick={() => updateParam('page', (page + 1).toString())}
+              loading={loading}
+              variant="outline"
+              size="lg"
+              className="min-w-[220px] rounded-xl border-slate-300 hover:border-[#B97832] hover:text-[#B97832]"
+            >
+              Load More Lines ({total - products.length} Remaining)
+            </Button>
+          </div>
+        )}
       </div>
 
-      {/* Mobile Filter Drawer Modal */}
+      {/* Clean Slide-over Filter Drawer */}
       <FilterDrawer
-        isOpen={mobileFilterOpen}
-        onClose={() => setMobileFilterOpen(false)}
+        isOpen={filterDrawerOpen}
+        onClose={() => setFilterDrawerOpen(false)}
         filterOptions={filterOptions}
         selectedCategory={category}
         setSelectedCategory={(val) => updateParam('category', val)}
