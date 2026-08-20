@@ -1,7 +1,5 @@
 # UNICOM FAB — Enterprise B2B Wholesale Apparel Commerce Platform
 
-![UNICOM FAB](https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&q=80&w=1200)
-
 **UNICOM FAB** is an ultra-premium, conversion-focused B2B wholesale commerce web application designed for garment manufacturers, textile mills, brand owners, resellers, and corporate buyers. Built with an editorial luxury aesthetic, the platform supports bulk order processing, strict Minimum Order Quantity (MOQ) validation, variant step increments, guest B2B enquiries, and an executive administration dashboard.
 
 ---
