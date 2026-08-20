@@ -132,15 +132,15 @@ export function Catalogue() {
       <div className="pointer-events-none absolute top-96 right-0 w-[450px] h-[450px] bg-gradient-to-br from-[#B97832]/8 to-transparent blur-3xl -z-10 rounded-full" />
 
       {/* Hero Catalogue Title */}
-      <div className="text-center max-w-3xl mx-auto mb-10 space-y-3">
-        <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#B97832]/10 border border-[#B97832]/20 rounded-full text-amber-800 text-xs font-mono font-bold tracking-widest uppercase">
-          <Sparkles className="w-3.5 h-3.5 text-[#B97832]" />
+      <div className="text-center max-w-3xl mx-auto mb-6 space-y-2">
+        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-[#B97832]/10 border border-[#B97832]/20 rounded-full text-amber-800 text-[10px] sm:text-[11px] font-mono font-bold tracking-widest uppercase">
+          <Sparkles className="w-3 h-3 text-[#B97832]" />
           <span>UNICOM WHOLESALE CATALOGUE</span>
         </div>
-        <h1 className="font-serif text-3xl sm:text-5xl font-bold text-slate-900 tracking-tight">
+        <h1 className="font-serif text-xl sm:text-3xl font-bold text-slate-900 tracking-tight">
           Curated Apparel Lines
         </h1>
-        <p className="text-slate-500 text-sm sm:text-base max-w-xl mx-auto font-light">
+        <p className="text-slate-500 text-xs sm:text-sm max-w-lg mx-auto font-light leading-relaxed px-2">
           Premium B2B wholesale manufacturing lines. Verified batch standards, tier-based pricing, and Pan-India direct dispatch.
         </p>
       </div>
