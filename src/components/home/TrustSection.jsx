@@ -97,25 +97,25 @@ const reviewsRow2 = [
 
 function GoogleReviewCard({ review }) {
   return (
-    <div className="w-[280px] xs:w-[300px] sm:w-[360px] shrink-0 bg-white border border-[#E7E3DA] rounded-2xl p-4 sm:p-6 shadow-xs hover:shadow-md hover:border-[#B97832]/40 transition-all duration-300 flex flex-col justify-between space-y-3.5 group">
-      <div className="space-y-2.5">
+    <div className="w-[240px] xs:w-[260px] sm:w-[300px] shrink-0 bg-white border border-[#E7E3DA] rounded-xl p-3.5 sm:p-4 shadow-2xs hover:shadow-md hover:border-[#B97832]/40 transition-all duration-300 flex flex-col justify-between space-y-2.5 group">
+      <div className="space-y-2">
         {/* Top Header: Initial Avatar & Company/Reviewer Info + Google G Logo */}
-        <div className="flex items-start justify-between gap-2.5">
-          <div className="flex items-center gap-2.5 min-w-0">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#F5F3EE] border border-[#E7E3DA] flex items-center justify-center font-bold text-xs text-[#B97832] shrink-0">
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex items-center gap-2 min-w-0">
+            <div className="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-full bg-[#F5F3EE] border border-[#E7E3DA] flex items-center justify-center font-bold text-[11px] text-[#B97832] shrink-0">
               {review.initials}
             </div>
             <div className="min-w-0">
-              <h4 className="font-semibold text-xs sm:text-sm text-[#101828] leading-tight truncate group-hover:text-[#B97832] transition-colors">
+              <h4 className="font-semibold text-[11px] sm:text-xs text-[#101828] leading-tight truncate group-hover:text-[#B97832] transition-colors">
                 {review.company}
               </h4>
-              <p className="text-[11px] text-[#667085] leading-tight mt-0.5 truncate">
+              <p className="text-[10px] text-[#667085] leading-tight mt-0.5 truncate">
                 {review.reviewer} <span className="text-slate-300">•</span> <span className="text-slate-500">{review.role}</span>
               </p>
             </div>
           </div>
           {/* Authentic Google G SVG */}
-          <div className="w-4 h-4 sm:w-5 sm:h-5 shrink-0 pt-0.5" title="Verified Customer Review">
+          <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0 pt-0.5" title="Verified Customer Review">
             <svg viewBox="0 0 24 24" className="w-full h-full">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
               <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
@@ -126,28 +126,28 @@ function GoogleReviewCard({ review }) {
         </div>
 
         {/* Rating Stars & Relative Date */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
           <div className="flex items-center gap-0.5">
             {Array.from({ length: review.rating }).map((_, i) => (
-              <Star key={i} className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-[#B97832] text-[#B97832]" />
+              <Star key={i} className="w-3 h-3 fill-[#B97832] text-[#B97832]" />
             ))}
           </div>
-          <span className="text-[10px] sm:text-[11px] text-[#667085] font-mono">• {review.date}</span>
+          <span className="text-[10px] text-[#667085] font-mono">• {review.date}</span>
         </div>
 
         {/* Review Text */}
-        <p className="text-xs text-[#344054] leading-relaxed font-normal line-clamp-3">
+        <p className="text-[11px] sm:text-xs text-[#344054] leading-normal font-normal line-clamp-3">
           "{review.text}"
         </p>
       </div>
 
       {/* Footer Order Specs & Verified Badge */}
-      <div className="pt-2.5 border-t border-[#E7E3DA] flex items-center justify-between gap-2">
-        <span className="text-[10px] sm:text-[11px] font-mono text-[#667085] bg-[#F5F3EE] px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md border border-[#E7E3DA] truncate max-w-[170px]">
+      <div className="pt-2 border-t border-[#E7E3DA] flex items-center justify-between gap-1.5">
+        <span className="text-[9px] sm:text-[10px] font-mono text-[#667085] bg-[#F5F3EE] px-2 py-0.5 rounded border border-[#E7E3DA] truncate max-w-[140px]">
           {review.order}
         </span>
-        <span className="text-[9px] sm:text-[10px] text-emerald-800 bg-emerald-50/90 px-1.5 py-0.5 rounded border border-emerald-200 font-medium flex items-center gap-1 shrink-0">
-          <CheckCircle2 className="w-3 h-3 text-emerald-600" /> Verified
+        <span className="text-[8.5px] sm:text-[9px] text-emerald-800 bg-emerald-50/90 px-1.5 py-0.5 rounded border border-emerald-200 font-medium flex items-center gap-0.5 shrink-0">
+          <CheckCircle2 className="w-2.5 h-2.5 text-emerald-600" /> Verified
         </span>
       </div>
     </div>
@@ -160,46 +160,46 @@ export function TrustSection() {
   const marqueeRow2Data = [...reviewsRow2, ...reviewsRow2, ...reviewsRow2];
 
   return (
-    <section className="py-12 sm:py-20 bg-[#FAF9F6] border-t border-[#E7E3DA] relative overflow-hidden">
+    <section className="py-10 sm:py-16 bg-[#FAF9F6] border-t border-[#E7E3DA] relative overflow-hidden">
       {/* Side Fade Gradients for Seamless Screen Transitions */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-8 sm:w-32 bg-gradient-to-r from-[#FAF9F6] to-transparent z-10" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-8 sm:w-32 bg-gradient-to-l from-[#FAF9F6] to-transparent z-10" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-8 sm:w-28 bg-gradient-to-r from-[#FAF9F6] to-transparent z-10" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-8 sm:w-28 bg-gradient-to-l from-[#FAF9F6] to-transparent z-10" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-0">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12 space-y-2.5">
-          <span className="text-xs font-mono font-bold tracking-widest text-[#B97832] uppercase">
+        <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-10 space-y-2">
+          <span className="text-[11px] font-mono font-bold tracking-widest text-[#B97832] uppercase">
             TRUSTED BY 250+ B2B BRANDS
           </span>
-          <h2 className="font-serif text-2xl sm:text-4xl font-bold text-[#101828]">
+          <h2 className="font-serif text-xl sm:text-3xl font-bold text-[#101828]">
             Client Success & Reseller Stories
           </h2>
-          <p className="text-[#667085] text-xs sm:text-base leading-relaxed px-2">
+          <p className="text-[#667085] text-xs sm:text-sm leading-relaxed px-2">
             See why fashion boutiques, corporate procurement teams, and e-commerce brands rely on UNICOM FAB for dependable wholesale supply.
           </p>
 
           {/* Trust Summary Rating Badge */}
-          <div className="pt-2 flex justify-center">
-            <div className="inline-flex flex-wrap items-center justify-center gap-2 bg-white border border-[#E7E3DA] px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full shadow-2xs text-xs text-[#101828] font-medium">
+          <div className="pt-1.5 flex justify-center">
+            <div className="inline-flex flex-wrap items-center justify-center gap-1.5 bg-white border border-[#E7E3DA] px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full shadow-2xs text-[11px] text-[#101828] font-medium">
               <div className="flex items-center gap-0.5">
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className="w-3.5 h-3.5 fill-[#B97832] text-[#B97832]" />
+                  <Star key={i} className="w-3 h-3 fill-[#B97832] text-[#B97832]" />
                 ))}
               </div>
               <span className="font-bold text-[#101828]">5.0 / 5 Rating</span>
               <span className="text-[#E7E3DA] hidden sm:inline">•</span>
-              <span className="text-[#667085] flex items-center gap-1 text-[11px] sm:text-xs">
-                <ShieldCheck className="w-3.5 h-3.5 text-[#B97832]" /> Verified Wholesale Supply
+              <span className="text-[#667085] flex items-center gap-1 text-[10px] sm:text-[11px]">
+                <ShieldCheck className="w-3 h-3 text-[#B97832]" /> Verified Wholesale Supply
               </span>
             </div>
           </div>
         </div>
 
         {/* Marquee Rows Container */}
-        <div className="space-y-4 sm:space-y-6">
+        <div className="space-y-3 sm:space-y-4">
           {/* ROW 1: Right to Left */}
           <div className="overflow-hidden py-1 -mx-4 px-4 sm:mx-0 sm:px-0">
-            <div className="animate-marquee-left gap-4 sm:gap-6">
+            <div className="animate-marquee-left gap-3 sm:gap-4">
               {marqueeRow1Data.map((review, idx) => (
                 <GoogleReviewCard key={`r1-${idx}`} review={review} />
               ))}
@@ -208,7 +208,7 @@ export function TrustSection() {
 
           {/* ROW 2: Left to Right */}
           <div className="overflow-hidden py-1 -mx-4 px-4 sm:mx-0 sm:px-0">
-            <div className="animate-marquee-right gap-4 sm:gap-6">
+            <div className="animate-marquee-right gap-3 sm:gap-4">
               {marqueeRow2Data.map((review, idx) => (
                 <GoogleReviewCard key={`r2-${idx}`} review={review} />
               ))}
