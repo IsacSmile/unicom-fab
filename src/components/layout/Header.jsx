@@ -106,7 +106,6 @@ export function Header() {
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Catalogue', path: '/catalogue' },
-    { name: 'Cart', path: '/cart' },
     { name: 'My Enquiries', path: '/my-enquiry' },
     { name: 'About', path: '/about' },
   ];
