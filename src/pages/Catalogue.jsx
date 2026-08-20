@@ -307,7 +307,7 @@ export function Catalogue() {
           <div ref={sentinelRef} className="py-12 text-center flex flex-col items-center justify-center gap-2">
             <div className="flex items-center gap-2.5 px-4 py-2 bg-white rounded-full border border-slate-200 shadow-2xs text-xs text-slate-600 font-mono">
               <span className="w-3.5 h-3.5 border-2 border-[#B97832] border-t-transparent rounded-full animate-spin" />
-              <span>Lazy loading catalogue lines ({total - products.length} remaining)...</span>
+              <span>Loading more products...</span>
             </div>
           </div>
         )}
