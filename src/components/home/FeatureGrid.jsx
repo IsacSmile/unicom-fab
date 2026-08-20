@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layers, ShieldCheck, Zap, PackageCheck, Headset, Truck } from 'lucide-react';
+import { Zap, ShieldCheck, PackageCheck, Layers, Truck, Headset } from 'lucide-react';
 
 export function FeatureGrid() {
   const features = [
@@ -21,48 +21,56 @@ export function FeatureGrid() {
     {
       icon: Layers,
       title: 'Wholesale-First Quantities',
-      description: 'Transparent minimum order quantities (starting from 30 PCS) and consistent quantity step increments tailored for re-stocking.',
+      description: 'Flexible MOQs, step increments, and volume pricing built around your business needs and forecasting.',
     },
     {
       icon: Truck,
       title: 'Pan-India & Global Express',
-      description: 'Direct freight logistics partnerships with pallet tracking and expedited commercial shipping across India and international ports.',
+      description: 'Fast dispatch from India to 520+ districts and international shipping for global retailers and brands.',
     },
     {
       icon: Headset,
       title: 'Business-Focused Support',
-      description: 'Dedicated B2B account managers assigned to handle custom sample requests, volume discounts, and corporate logistics.',
+      description: 'Dedicated account managers, quick resolutions, and proactive updates for smooth business operations.',
     },
   ];
 
   return (
-    <section className="py-20 bg-white border-b border-slate-200">
+    <section className="py-20 sm:py-24 bg-[#F5F3EE] border-t border-[#E7E3DA] relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-          <span className="text-xs font-mono font-bold tracking-widest text-amber-700 uppercase">
+          <span className="text-xs font-mono font-bold tracking-widest text-[#B97832] uppercase">
             WHY PARTNER WITH UNICOM FAB
           </span>
-          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-brand-950">
+          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#101828]">
             Engineered for Modern Retailers & Brands
           </h2>
-          <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+          <p className="text-[#667085] text-sm sm:text-base leading-relaxed">
             Eliminate traditional offline wholesale procurement hassles. Inspect digital specs, confirm batch numbers, and manage restocks seamlessly.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Feature Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {features.map((item, idx) => {
             const Icon = item.icon;
             return (
               <div
                 key={idx}
-                className="p-8 rounded-2xl bg-slate-50/60 border border-slate-200/80 hover:border-slate-300 hover:bg-white hover:shadow-editorial-hover transition-all duration-300 space-y-4 group"
+                className="bg-white border border-[#E7E3DA] p-6 sm:p-7 rounded-2xl shadow-sm hover:shadow-md hover:border-[#B97832]/40 hover:-translate-y-1 transition-all duration-300 space-y-4 group flex flex-col justify-between"
               >
-                <div className="w-12 h-12 rounded-xl bg-brand-950 text-luxury-gold flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Icon className="w-6 h-6" />
+                <div className="space-y-4">
+                  <div className="w-11 h-11 rounded-xl bg-[#F5F3EE] border border-[#E7E3DA] text-[#B97832] flex items-center justify-center group-hover:bg-[#B97832] group-hover:text-white group-hover:border-[#B97832] transition-colors duration-300">
+                    <Icon className="w-5 h-5" />
+                  </div>
+                  <h3 className="font-serif font-bold text-lg sm:text-xl text-[#101828] group-hover:text-[#B97832] transition-colors">
+                    {item.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-[#667085] leading-relaxed font-normal">
+                    {item.description}
+                  </p>
                 </div>
-                <h3 className="font-serif font-bold text-xl text-brand-950">{item.title}</h3>
-                <p className="text-sm text-slate-600 leading-relaxed font-light">{item.description}</p>
               </div>
             );
           })}
