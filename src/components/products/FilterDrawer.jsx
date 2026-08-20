@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Filter, X, RotateCcw, Sparkles, TrendingUp, ChevronDown } from 'lucide-react';
 import { Button } from '../common/Button';
 
@@ -22,14 +23,36 @@ export function FilterDrawer({
   setSortOption,
   onResetFilters,
 }) {
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
-  return (
-    <div className="fixed inset-0 z-50 overflow-hidden bg-slate-950/60 backdrop-blur-xs flex justify-end animate-fade-in">
-      <div className="w-full max-w-md bg-white h-full shadow-2xl p-6 overflow-y-auto flex flex-col justify-between">
-        <div>
+  return createPortal(
+    <div
+      onClick={onClose}
+      className="fixed inset-0 z-[99999] bg-slate-950/70 backdrop-blur-xs flex justify-end animate-fade-in"
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="w-full max-w-md bg-white h-full shadow-2xl flex flex-col justify-between overflow-hidden"
+      >
+        <div className="p-6 overflow-y-auto flex-1">
           {/* Header */}
-          <div className="flex items-center justify-between pb-4 mb-6 border-b border-slate-200">
+          <div className="sticky top-0 bg-white z-10 flex items-center justify-between pb-4 mb-6 border-b border-slate-200 -mx-6 px-6 pt-2">
             <h3 className="font-serif font-bold text-xl text-slate-900 flex items-center gap-2">
               <Filter className="w-4 h-4 text-[#B97832]" /> Filter Catalogue
             </h3>
@@ -43,9 +66,10 @@ export function FilterDrawer({
               </button>
               <button
                 onClick={onClose}
-                className="p-1 rounded-lg text-slate-400 hover:text-slate-800 transition-colors"
+                className="p-1.5 rounded-xl text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-colors"
+                aria-label="Close Filter"
               >
-                <X className="w-5 h-5" />
+                <X className="w-5.5 h-5.5 stroke-[2]" />
               </button>
             </div>
           </div>
@@ -197,12 +221,13 @@ export function FilterDrawer({
           </div>
         </div>
 
-        <div className="pt-4 border-t border-slate-200 mt-6">
-          <Button onClick={onClose} variant="primary" className="w-full bg-[#B97832] hover:bg-amber-800 text-white font-bold py-3 rounded-xl">
+        <div className="p-4 border-t border-slate-200 bg-white">
+          <Button onClick={onClose} variant="primary" className="w-full bg-[#B97832] hover:bg-amber-800 text-white font-bold py-3 rounded-xl shadow-md">
             View Filtered Lines
           </Button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

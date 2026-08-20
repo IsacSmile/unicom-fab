@@ -56,28 +56,30 @@ export function ProductCard({ product }) {
   const stockInfo = getStockBadge(product.stockQuantity, product.minOrderQuantity);
 
   return (
-    <div className="group relative bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-2xs hover:shadow-xl hover:border-[#B97832]/60 transition-all duration-300 flex flex-col font-neue">
+    <div className="group relative bg-white rounded-2xl border border-slate-200/90 shadow-2xs hover:shadow-xl hover:border-[#B97832]/60 transition-all duration-300 flex flex-col font-neue">
       
       {/* Ambient Golden Border Glow on Hover */}
       <div className="pointer-events-none absolute -inset-px rounded-2xl border-2 border-transparent group-hover:border-[#B97832]/40 transition-colors z-20" />
 
       {/* Image Container (Reduced height ratio for compact luxury presentation) */}
-      <div className="relative aspect-[4/4.2] bg-slate-100 overflow-hidden z-10">
-        <img
-          src={mainImage}
-          alt={product.name}
-          loading="lazy"
-          className="w-full h-full object-cover object-center group-hover:scale-104 transition-transform duration-500"
-        />
+      <div className="relative aspect-[4/4.2] bg-slate-100 overflow-hidden rounded-t-2xl z-10">
+        <Link to={`/product/${product.id}`} className="block w-full h-full">
+          <img
+            src={mainImage}
+            alt={product.name}
+            loading="lazy"
+            className="w-full h-full object-cover object-center group-hover:scale-104 transition-transform duration-500"
+          />
+        </Link>
 
         {/* Floating Glassmorphism Badges (Trending / New Arrival) */}
-        <div className="absolute top-2.5 left-2.5 flex flex-wrap gap-1.5 z-10">
+        <div className="absolute top-2.5 left-2.5 flex flex-wrap gap-1.5 z-10 pointer-events-none">
           {product.isTrending && <Badge variant="trending">Trending</Badge>}
           {product.isNewArrival && <Badge variant="new">New Arrival</Badge>}
         </div>
 
         {/* Stock Badge Overlay Top Right */}
-        <div className="absolute top-2.5 right-2.5 z-10">
+        <div className="absolute top-2.5 right-2.5 z-10 pointer-events-none">
           <span className={`px-2 py-0.5 rounded-md text-[9px] font-neue font-bold border uppercase tracking-wider backdrop-blur-md shadow-2xs ${stockInfo.color}`}>
             {stockInfo.label}
           </span>
@@ -96,17 +98,19 @@ export function ProductCard({ product }) {
       </div>
 
       {/* Compact Content Details Area */}
-      <div className="p-3.5 sm:p-4 flex flex-col gap-2 relative z-10 bg-white">
+      <div className="p-3.5 sm:p-4 flex flex-col gap-2 relative z-10 bg-white rounded-b-2xl">
         {/* Category & Batch Header (Fixed in Same Line) */}
         <div className="flex items-center justify-between gap-2 text-xs whitespace-nowrap overflow-hidden">
           <span className="uppercase tracking-wider font-neue font-bold text-[10px] text-[#B97832] truncate">{product.category}</span>
           <span className="text-[10px] text-slate-400 font-mono shrink-0">{product.batchNumber}</span>
         </div>
 
-        {/* Sharp & Smooth Neue Product Title */}
-        <h3 className="font-neue font-semibold text-sm sm:text-[15px] text-slate-900 group-hover:text-[#B97832] transition-colors duration-200 line-clamp-2 leading-snug tracking-tight antialiased">
-          {product.name}
-        </h3>
+        {/* Sharp & Smooth Neue Product Title (Clickable Link) */}
+        <Link to={`/product/${product.id}`} className="block group/title">
+          <h3 className="font-neue font-semibold text-sm sm:text-[15px] text-slate-900 group-hover/title:text-[#B97832] group-hover:text-[#B97832] transition-colors duration-200 line-clamp-2 leading-snug tracking-tight antialiased">
+            {product.name}
+          </h3>
+        </Link>
 
         {/* Wholesale Spec Meta */}
         <div className="pt-2 border-t border-slate-100 space-y-1.5">
@@ -117,16 +121,29 @@ export function ProductCard({ product }) {
               <div className="flex items-center gap-1.5">
                 {product.colours.map((col, i) => {
                   const hex = getColorHex(col);
+                  const isLast = i === product.colours.length - 1;
+                  const isFirst = i === 0;
+
+                  let tooltipAlign = "left-1/2 -translate-x-1/2";
+                  let arrowAlign = "left-1/2 -translate-x-1/2";
+                  if (isLast && product.colours.length > 1) {
+                    tooltipAlign = "right-0 translate-x-1";
+                    arrowAlign = "right-2.5";
+                  } else if (isFirst && product.colours.length > 1) {
+                    tooltipAlign = "left-0 -translate-x-1";
+                    arrowAlign = "left-2.5";
+                  }
+
                   return (
                     <div key={i} className="group/swatch relative flex items-center justify-center">
                       <span
                         className="w-3.5 h-3.5 rounded-full border border-slate-300 shadow-2xs cursor-pointer transition-transform duration-200 group-hover/swatch:scale-125 group-hover/swatch:ring-2 group-hover/swatch:ring-[#B97832]"
                         style={{ backgroundColor: hex }}
                       />
-                      {/* Color Name Tooltip */}
-                      <div className="pointer-events-none absolute bottom-full mb-1.5 left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-900 text-white text-[10px] font-medium px-2 py-0.5 rounded shadow-md opacity-0 group-hover/swatch:opacity-100 transition-opacity duration-200 z-30">
+                      {/* Smart Color Name Tooltip (No edge clipping) */}
+                      <div className={`pointer-events-none absolute bottom-full mb-1.5 ${tooltipAlign} whitespace-nowrap bg-slate-900 text-white text-[10px] font-medium px-2 py-0.5 rounded shadow-lg opacity-0 group-hover/swatch:opacity-100 transition-all duration-200 z-50`}>
                         {col}
-                        <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-900" />
+                        <div className={`absolute top-full ${arrowAlign} border-4 border-transparent border-t-slate-900`} />
                       </div>
                     </div>
                   );

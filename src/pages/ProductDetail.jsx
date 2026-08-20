@@ -96,22 +96,22 @@ export function ProductDetail() {
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-        {/* Left Column: 4 Image Gallery */}
-        <div className="lg:col-span-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        {/* Left Column: 4 Image Gallery (Size reduced by 20% on mobile) */}
+        <div className="lg:col-span-5 max-w-[80%] sm:max-w-md mx-auto w-full">
           <ProductGallery images={product.images} name={product.name} />
         </div>
 
         {/* Right Column: Wholesale Specifications & Order Options */}
-        <div className="lg:col-span-6 space-y-6">
+        <div className="lg:col-span-7 space-y-6">
           {/* Header Info */}
           <div>
             <div className="flex flex-wrap items-center gap-2 mb-2">
-              <span className="text-xs font-mono font-bold tracking-widest text-amber-700 uppercase">
+              <span className="text-[10px] font-mono font-bold tracking-widest text-[#B97832] uppercase bg-amber-50 px-2 py-0.5 rounded border border-amber-200/60">
                 {product.category}
               </span>
               <span className="text-slate-300 font-mono">•</span>
-              <span className="text-xs font-mono text-slate-500 font-semibold">
+              <span className="text-[11px] font-mono text-slate-500 font-semibold">
                 BATCH: {product.batchNumber}
               </span>
               <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase border ${stockBadge.color}`}>
@@ -119,32 +119,32 @@ export function ProductDetail() {
               </span>
             </div>
 
-            <h1 className="font-serif font-bold text-3xl sm:text-4xl text-brand-950 leading-tight">
+            <h1 className="font-serif font-bold text-xl sm:text-2xl lg:text-3xl text-slate-950 leading-snug">
               {product.name}
             </h1>
 
-            <div className="mt-4 flex items-baseline gap-3 pb-4 border-b border-slate-200">
-              <span className="text-xs text-slate-400 font-semibold uppercase">Wholesale Price:</span>
-              <span className="font-display font-bold text-3xl text-brand-950">
+            <div className="mt-3 flex items-baseline gap-2.5 pb-3 border-b border-slate-200">
+              <span className="text-[10px] text-slate-500 font-semibold uppercase font-mono tracking-wider">Wholesale Price:</span>
+              <span className="font-display font-bold text-2xl sm:text-3xl text-slate-950">
                 {formatCurrency(product.wholesalePrice)}
-                <span className="text-sm font-normal text-slate-500"> / PC</span>
+                <span className="text-xs font-normal text-slate-500"> / PC</span>
               </span>
               {product.suggestedMsrp && (
-                <span className="text-xs text-slate-400 line-through">
+                <span className="text-[11px] text-slate-400 line-through font-mono">
                   MSRP: {formatCurrency(product.suggestedMsrp)}
                 </span>
               )}
             </div>
           </div>
 
-          {/* Description */}
-          <div className="text-slate-600 text-sm leading-relaxed space-y-2">
-            <h4 className="text-xs font-bold uppercase text-slate-400 font-mono">Garment & Batch Specs</h4>
-            <p>{product.description}</p>
+          {/* Garment & Batch Specs */}
+          <div className="bg-slate-50/80 p-3 sm:p-3.5 rounded-xl border-l-2 border-[#B97832] border-y border-r border-slate-200/80 text-slate-600 text-xs sm:text-sm leading-relaxed space-y-1">
+            <h4 className="text-[10px] font-bold uppercase text-amber-800 font-mono tracking-wider">Garment & Batch Specs</h4>
+            <p className="text-slate-700 font-sans">{product.description}</p>
           </div>
 
           {/* Variants Selectors */}
-          <div className="space-y-5 p-5 bg-slate-50 rounded-2xl border border-slate-200">
+          <div className="space-y-4 p-4 sm:p-5 bg-white sm:bg-slate-50/90 rounded-2xl border border-slate-200/90 shadow-xs sm:shadow-none">
             {/* Colour Selector */}
             <ColourSelector
               colours={product.colours}
@@ -170,34 +170,34 @@ export function ProductDetail() {
           </div>
 
           {/* Total Line Pricing Summary */}
-          <div className="p-4 bg-brand-950 text-white rounded-xl flex items-center justify-between">
+          <div className="p-3.5 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 text-white rounded-xl flex items-center justify-between shadow-md border border-slate-800">
             <div>
-              <span className="text-xs text-slate-400 block font-mono">Line Estimated Total ({quantity} PCS)</span>
-              <span className="font-display font-bold text-2xl text-luxury-gold">
+              <span className="text-[10px] text-slate-400 block font-mono uppercase tracking-wider">Line Estimated Total ({quantity} PCS)</span>
+              <span className="font-display font-bold text-xl sm:text-2xl text-amber-400">
                 {formatCurrency(product.wholesalePrice * quantity)}
               </span>
             </div>
-            <span className="text-xs font-mono text-slate-400">Excl. Freight Tax</span>
+            <span className="text-[10px] font-mono text-slate-400 bg-slate-800/80 px-2 py-1 rounded border border-slate-700">
+              Excl. Freight Tax
+            </span>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
+          <div className="flex flex-col sm:flex-row items-center gap-2.5 pt-1">
             <Button
               onClick={handleAddToCart}
-              size="lg"
               variant="primary"
               icon={ShoppingBag}
               disabled={product.stockQuantity <= 0}
-              className="w-full sm:flex-1 font-bold text-sm"
+              className="w-full sm:flex-1 font-bold text-xs sm:text-sm py-3 bg-[#B97832] hover:bg-amber-800 active:scale-[0.99] text-white shadow-md rounded-xl"
             >
               Add to Wholesale Order
             </Button>
             <Button
               onClick={() => setEnquiryOpen(true)}
-              size="lg"
               variant="outline"
               icon={Send}
-              className="w-full sm:w-auto text-xs"
+              className="w-full sm:w-auto text-xs py-3 rounded-xl hover:bg-slate-50"
             >
               Send Enquiry
             </Button>
