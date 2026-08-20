@@ -78,7 +78,7 @@ export function ProductFormModal({ isOpen, onClose, productToEdit, onSaved }) {
   const handleFileUpload = (index, file) => {
     if (!file) return;
     if (!file.type.startsWith('image/')) {
-      addToast('Please select a valid image file', 'error');
+      addToast('Please select a valid image file (JPG, PNG, WEBP)', 'error');
       return;
     }
     if (file.size > 10 * 1024 * 1024) {
@@ -89,10 +89,10 @@ export function ProductFormModal({ isOpen, onClose, productToEdit, onSaved }) {
     const reader = new FileReader();
     reader.onload = (e) => {
       handleImageChange(index, e.target.result);
-      addToast(`Photo ${index + 1} loaded from device!`, 'success');
+      addToast(`Image ${index + 1} attached successfully`, 'success');
     };
     reader.onerror = () => {
-      addToast('Failed to read image file', 'error');
+      addToast('Unable to read image file from device', 'error');
     };
     reader.readAsDataURL(file);
   };
@@ -109,7 +109,7 @@ export function ProductFormModal({ isOpen, onClose, productToEdit, onSaved }) {
       };
       reader.readAsDataURL(file);
     });
-    addToast(`Uploaded ${fileArray.length} photo(s) from device`, 'success');
+    addToast(`Successfully loaded ${fileArray.length} photo(s) into product gallery`, 'success');
   };
 
   const handleSubmit = async (e) => {
