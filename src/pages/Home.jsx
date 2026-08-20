@@ -102,29 +102,29 @@ export function Home() {
       <TrustSection />
 
       {/* Bottom CTA Section */}
-      <section className="py-16 sm:py-20 bg-[#FAF9F6] text-slate-900 text-center border-t border-slate-200/90 relative font-neue">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5">
-          <span className="text-xs font-mono font-bold tracking-widest text-[#B97832] uppercase">
+      <section className="py-10 sm:py-14 bg-[#FAF9F6] text-slate-900 text-center border-t border-slate-200/90 relative font-neue">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-3">
+          <span className="text-[11px] font-mono font-bold tracking-widest text-[#B97832] uppercase">
             PAN-INDIA & GLOBAL WHOLESALE SUPPLY
           </span>
-          <h2 className="font-serif text-3xl sm:text-5xl font-bold text-slate-950 tracking-tight">
+          <h2 className="font-serif text-xl sm:text-3xl font-bold text-slate-950 tracking-tight">
             READY TO STOCK YOUR BUSINESS?
           </h2>
-          <p className="text-slate-600 text-sm sm:text-base font-light leading-relaxed max-w-2xl mx-auto">
+          <p className="text-slate-600 text-xs sm:text-sm font-light leading-relaxed max-w-xl mx-auto px-2">
             Browse our complete catalogue of premium apparel, inspect detailed batch numbers, and place your bulk order online in minutes.
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-3">
+          <div className="flex flex-wrap items-center justify-center gap-2.5 pt-2">
             <Link to="/catalogue">
-              <Button size="lg" variant="gold" icon={ArrowRight} className="font-bold shadow-md">
+              <Button size="md" variant="gold" icon={ArrowRight} className="font-bold shadow-md text-xs sm:text-sm py-2.5 px-5 rounded-xl">
                 Browse Catalogue
               </Button>
             </Link>
             <Button
               onClick={() => setEnquiryModalOpen(true)}
-              size="lg"
+              size="md"
               variant="outline"
               icon={Send}
-              className="text-slate-900 border-slate-300 bg-white hover:bg-slate-950 hover:text-white hover:border-slate-950 font-semibold shadow-2xs"
+              className="text-slate-900 border-slate-300 bg-white hover:bg-slate-950 hover:text-white hover:border-slate-950 font-semibold shadow-2xs text-xs sm:text-sm py-2.5 px-5 rounded-xl transition-all"
             >
               Send Wholesale Enquiry
             </Button>
