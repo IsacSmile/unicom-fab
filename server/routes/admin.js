@@ -2,6 +2,8 @@ import express from 'express';
 import db from '../db/database.js';
 import { authenticateAdmin } from '../middleware/authMiddleware.js';
 
+const router = express.Router();
+
 // Public Storefront Settings (Announcement Bar & Brand Marquee text)
 router.get('/settings', (req, res) => {
   try {
@@ -20,25 +22,30 @@ router.use(authenticateAdmin);
 
 // Dashboard Overview Metrics
 router.get('/stats', (req, res) => {
-  const totalProducts = db.prepare('SELECT COUNT(*) as count FROM products').get().count;
-  const totalOrders = db.prepare('SELECT COUNT(*) as count FROM orders').get().count;
-  const pendingOrders = db.prepare('SELECT COUNT(*) as count FROM orders WHERE status = "Pending"').get().count;
-  const totalEnquiries = db.prepare('SELECT COUNT(*) as count FROM enquiries').get().count;
-  const newEnquiries = db.prepare('SELECT COUNT(*) as count FROM enquiries WHERE status = "New"').get().count;
-  const lowStockProducts = db.prepare('SELECT COUNT(*) as count FROM products WHERE stock_quantity <= min_order_quantity * 2').get().count;
-  const trendingProducts = db.prepare('SELECT COUNT(*) as count FROM products WHERE is_trending = 1').get().count;
-  const newArrivalProducts = db.prepare('SELECT COUNT(*) as count FROM products WHERE is_new_arrival = 1').get().count;
+  try {
+    const totalProducts = db.prepare('SELECT COUNT(*) as count FROM products').get()?.count || 0;
+    const totalOrders = db.prepare('SELECT COUNT(*) as count FROM orders').get()?.count || 0;
+    const pendingOrders = db.prepare('SELECT COUNT(*) as count FROM orders WHERE status = "Pending"').get()?.count || 0;
+    const totalEnquiries = db.prepare('SELECT COUNT(*) as count FROM enquiries').get()?.count || 0;
+    const newEnquiries = db.prepare('SELECT COUNT(*) as count FROM enquiries WHERE status = "New"').get()?.count || 0;
+    const lowStockProducts = db.prepare('SELECT COUNT(*) as count FROM products WHERE stock_quantity <= min_order_quantity * 2').get()?.count || 0;
+    const trendingProducts = db.prepare('SELECT COUNT(*) as count FROM products WHERE is_trending = 1').get()?.count || 0;
+    const newArrivalProducts = db.prepare('SELECT COUNT(*) as count FROM products WHERE is_new_arrival = 1').get()?.count || 0;
 
-  return res.json({
-    totalProducts,
-    totalOrders,
-    pendingOrders,
-    totalEnquiries,
-    newEnquiries,
-    lowStockProducts,
-    trendingProducts,
-    newArrivalProducts
-  });
+    return res.json({
+      totalProducts,
+      totalOrders,
+      pendingOrders,
+      totalEnquiries,
+      newEnquiries,
+      lowStockProducts,
+      trendingProducts,
+      newArrivalProducts
+    });
+  } catch (err) {
+    console.error('Error fetching admin stats:', err);
+    return res.status(500).json({ error: 'Failed to fetch admin stats' });
+  }
 });
 
 // Admin Product Management: Create Product
