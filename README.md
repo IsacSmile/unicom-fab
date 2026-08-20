@@ -126,14 +126,6 @@ Open your browser and visit:
 
 ---
 
-## 🔑 Default Admin Credentials
-
-To access the `/admin` portal:
-- **Email / ID**: `admin@unicomfab.com`
-- **Password**: `admin123`
-
----
-
 ## 📜 Available NPM Scripts
 
 - `npm run dev` — Concurrently launches Express API server and Vite frontend.
