@@ -197,11 +197,24 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4 pt-4">
+        <div className="flex flex-col md:flex-row items-center justify-between text-xs text-slate-500 gap-4 pt-4 border-t border-slate-800/60 mt-4">
           <p>© {new Date().getFullYear()} UNICOM FAB B2B Wholesale Platform. All rights reserved.</p>
 
+          {/* Developer Credit */}
+          <p className="text-xs text-amber-200/90 font-medium tracking-wide">
+            Engineered by{' '}
+            <a
+              href="https://www.instagram.com/faiz_imam__"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-bold text-amber-400 hover:text-amber-300 transition-colors hover:underline"
+            >
+              Faiz.I
+            </a>
+          </p>
+
           {/* Payment / Commercial Badges */}
-          <div className="flex items-center gap-4 text-[11px] font-mono text-slate-500">
+          <div className="flex items-center gap-3 sm:gap-4 text-[11px] font-mono text-slate-500 flex-wrap justify-center">
             <span className="flex items-center gap-1 font-semibold text-slate-700">
               <Lock className="w-3 h-3 text-[#B97832]" /> GST Invoiced
             </span>
