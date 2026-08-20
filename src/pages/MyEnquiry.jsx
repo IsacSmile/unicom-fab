@@ -183,33 +183,43 @@ export function MyEnquiry() {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
-                      {enquiry.items && enquiry.items.map((item, i) => (
-                        <tr key={i} className="hover:bg-slate-50/50">
-                          <td className="py-3 font-semibold text-slate-900">
-                            <div>
-                              <p className="font-serif font-bold text-sm text-slate-950">{item.productName}</p>
-                              <span className="text-[10px] font-mono text-[#B97832] font-bold">BATCH: {item.batchNumber}</span>
-                            </div>
-                          </td>
-                          <td className="py-3 text-slate-600">
-                            <span className="px-2 py-0.5 bg-slate-100 rounded text-[11px] font-medium mr-1.5">
-                              {item.colour}
-                            </span>
-                            <span className="px-2 py-0.5 bg-slate-100 rounded text-[11px] font-mono font-medium">
-                              {item.size}
-                            </span>
-                          </td>
-                          <td className="py-3 text-right font-mono font-bold text-slate-900">
-                            {formatCurrency(item.pricePerUnit)} / PC
-                          </td>
-                          <td className="py-3 text-center font-mono font-bold text-slate-900">
-                            {item.quantity} PCS
-                          </td>
-                          <td className="py-3 text-right font-mono font-bold text-slate-950">
-                            {formatCurrency(item.pricePerUnit * item.quantity)}
-                          </td>
-                        </tr>
-                      ))}
+                      {enquiry.items && enquiry.items.map((item, i) => {
+                        const productName = item.productName || item.product_name || 'Wholesale Item';
+                        const batchNumber = item.batchNumber || item.batch_number || '';
+                        const quantity = Number(item.quantity) || 0;
+                        const pricePerUnit = Number(item.pricePerUnit ?? item.price_per_unit ?? item.price ?? (enquiry.totalAmount && enquiry.totalQuantity ? enquiry.totalAmount / enquiry.totalQuantity : 0)) || 0;
+                        const lineSubtotal = pricePerUnit * quantity;
+
+                        return (
+                          <tr key={i} className="hover:bg-slate-50/50">
+                            <td className="py-3 font-semibold text-slate-900">
+                              <div>
+                                <p className="font-serif font-bold text-sm text-slate-950">{productName}</p>
+                                {batchNumber && (
+                                  <span className="text-[10px] font-mono text-[#B97832] font-bold">BATCH: {batchNumber}</span>
+                                )}
+                              </div>
+                            </td>
+                            <td className="py-3 text-slate-600">
+                              <span className="px-2 py-0.5 bg-slate-100 rounded text-[11px] font-medium mr-1.5">
+                                {item.colour || 'Standard'}
+                              </span>
+                              <span className="px-2 py-0.5 bg-slate-100 rounded text-[11px] font-mono font-medium">
+                                {item.size || 'Free'}
+                              </span>
+                            </td>
+                            <td className="py-3 text-right font-mono font-bold text-slate-900">
+                              {formatCurrency(pricePerUnit)} / PC
+                            </td>
+                            <td className="py-3 text-center font-mono font-bold text-slate-900">
+                              {quantity} PCS
+                            </td>
+                            <td className="py-3 text-right font-mono font-bold text-slate-950">
+                              {formatCurrency(lineSubtotal)}
+                            </td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
                 </div>

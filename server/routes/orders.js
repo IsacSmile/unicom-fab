@@ -128,7 +128,14 @@ router.get('/my-orders', authenticateUser, (req, res) => {
   const orders = db.prepare('SELECT * FROM orders WHERE user_id = ? ORDER BY created_at DESC').all(user.id);
 
   const formattedOrders = orders.map(o => {
-    const items = db.prepare('SELECT * FROM order_items WHERE order_id = ?').all(o.id);
+    const rawItems = db.prepare('SELECT * FROM order_items WHERE order_id = ?').all(o.id);
+    const items = rawItems.map(item => ({
+      ...item,
+      productName: item.product_name || item.productName || 'Wholesale Product',
+      batchNumber: item.batch_number || item.batchNumber || 'N/A',
+      pricePerUnit: item.price_per_unit !== undefined ? item.price_per_unit : item.pricePerUnit
+    }));
+
     return {
       id: o.id,
       companyName: o.company_name,
