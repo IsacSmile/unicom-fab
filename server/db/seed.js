@@ -1,20 +1,3 @@
-import db from './database.js';
-
-console.log('🌱 Starting UNICOM FAB B2B Database Seeding...');
-
-// Clear existing tables
-db.exec(`
-  DELETE FROM order_items;
-  DELETE FROM orders;
-  DELETE FROM product_colours;
-  DELETE FROM product_sizes;
-  DELETE FROM product_images;
-  DELETE FROM products;
-  DELETE FROM enquiries;
-  DELETE FROM users;
-  DELETE FROM admin_settings;
-`);
-
 const productsData = [
   {
     id: 'prod-001',
@@ -478,51 +461,58 @@ const productsData = [
   }
 ];
 
-// Insert products
-const insertProduct = db.prepare(`
-  INSERT INTO products (
-    id, name, slug, description, category, wholesale_price, suggested_msrp,
-    batch_number, stock_quantity, min_order_quantity, quantity_step, is_trending, is_new_arrival
-  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-`);
+import db from './database.js';
 
-const insertImage = db.prepare(`
-  INSERT INTO product_images (product_id, image_url, display_order) VALUES (?, ?, ?)
-`);
+async function seed() {
+  console.log('🌱 Starting UNICOM FAB B2B Database Seeding...');
 
-const insertColour = db.prepare(`
-  INSERT INTO product_colours (product_id, colour_name) VALUES (?, ?)
-`);
+  try {
+    // Clear existing tables
+    await db.exec(`
+      DELETE FROM order_items;
+      DELETE FROM orders;
+      DELETE FROM product_colours;
+      DELETE FROM product_sizes;
+      DELETE FROM product_images;
+      DELETE FROM products;
+      DELETE FROM enquiries;
+      DELETE FROM users;
+      DELETE FROM admin_settings;
+    `);
 
-const insertSize = db.prepare(`
-  INSERT INTO product_sizes (product_id, size_name) VALUES (?, ?)
-`);
+    for (const p of productsData) {
+      await db.prepare(`
+        INSERT INTO products (
+          id, name, slug, description, category, wholesale_price, suggested_msrp,
+          batch_number, stock_quantity, min_order_quantity, quantity_step, is_trending, is_new_arrival
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `).run(
+        p.id, p.name, p.slug, p.description, p.category, p.wholesale_price,
+        p.suggested_msrp, p.batch_number, p.stock_quantity, p.min_order_quantity,
+        p.quantity_step, p.is_trending, p.is_new_arrival
+      );
 
-db.transaction(() => {
-  for (const p of productsData) {
-    insertProduct.run(
-      p.id, p.name, p.slug, p.description, p.category, p.wholesale_price,
-      p.suggested_msrp, p.batch_number, p.stock_quantity, p.min_order_quantity,
-      p.quantity_step, p.is_trending, p.is_new_arrival
-    );
+      for (let index = 0; index < Math.min(p.images.length, 4); index++) {
+        await db.prepare('INSERT INTO product_images (product_id, image_url, display_order) VALUES (?, ?, ?)').run(p.id, p.images[index], index);
+      }
 
-    p.images.slice(0, 4).forEach((imgUrl, index) => {
-      insertImage.run(p.id, imgUrl, index);
-    });
+      for (const col of p.colours) {
+        await db.prepare('INSERT INTO product_colours (product_id, colour_name) VALUES (?, ?)').run(p.id, col);
+      }
 
-    p.colours.forEach(col => {
-      insertColour.run(p.id, col);
-    });
+      for (const sz of p.sizes) {
+        await db.prepare('INSERT INTO product_sizes (product_id, size_name) VALUES (?, ?)').run(p.id, sz);
+      }
+    }
 
-    p.sizes.forEach(sz => {
-      insertSize.run(p.id, sz);
-    });
+    // Insert seed admin settings
+    await db.prepare('INSERT INTO admin_settings (key, value) VALUES (?, ?)').run('announcement_text', 'WHOLESALE ORDERS • MINIMUM 30 PCS • PAN-INDIA & GLOBAL DELIVERY');
+    await db.prepare('INSERT INTO admin_settings (key, value) VALUES (?, ?)').run('brand_marquee', 'WHOLESALE READY • BULK ORDERS • QUALITY APPAREL • FAST FULFILMENT • TRUSTED B2B SUPPLY');
+
+    console.log('✅ Seeding complete! Inserted 20 products with images, colours, sizes, and settings.');
+  } catch (err) {
+    console.error('❌ Seeding failed:', err);
   }
+}
 
-  // Insert seed admin settings
-  const insertSetting = db.prepare(`INSERT INTO admin_settings (key, value) VALUES (?, ?)`);
-  insertSetting.run('announcement_text', 'WHOLESALE ORDERS • MINIMUM 30 PCS • PAN-INDIA & GLOBAL DELIVERY');
-  insertSetting.run('brand_marquee', 'WHOLESALE READY • BULK ORDERS • QUALITY APPAREL • FAST FULFILMENT • TRUSTED B2B SUPPLY');
-})();
-
-console.log('✅ Seeding complete! Inserted 20 products with images, colours, sizes, and settings.');
+seed();
