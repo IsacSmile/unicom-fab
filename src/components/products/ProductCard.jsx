@@ -63,21 +63,23 @@ export function ProductCard({ product }) {
 
       {/* Image Container (Reduced height ratio for compact luxury presentation) */}
       <div className="relative aspect-[4/4.2] bg-slate-100 overflow-hidden rounded-t-2xl z-10">
-        <img
-          src={mainImage}
-          alt={product.name}
-          loading="lazy"
-          className="w-full h-full object-cover object-center group-hover:scale-104 transition-transform duration-500"
-        />
+        <Link to={`/product/${product.id}`} className="block w-full h-full">
+          <img
+            src={mainImage}
+            alt={product.name}
+            loading="lazy"
+            className="w-full h-full object-cover object-center group-hover:scale-104 transition-transform duration-500"
+          />
+        </Link>
 
         {/* Floating Glassmorphism Badges (Trending / New Arrival) */}
-        <div className="absolute top-2.5 left-2.5 flex flex-wrap gap-1.5 z-10">
+        <div className="absolute top-2.5 left-2.5 flex flex-wrap gap-1.5 z-10 pointer-events-none">
           {product.isTrending && <Badge variant="trending">Trending</Badge>}
           {product.isNewArrival && <Badge variant="new">New Arrival</Badge>}
         </div>
 
         {/* Stock Badge Overlay Top Right */}
-        <div className="absolute top-2.5 right-2.5 z-10">
+        <div className="absolute top-2.5 right-2.5 z-10 pointer-events-none">
           <span className={`px-2 py-0.5 rounded-md text-[9px] font-neue font-bold border uppercase tracking-wider backdrop-blur-md shadow-2xs ${stockInfo.color}`}>
             {stockInfo.label}
           </span>
@@ -103,10 +105,12 @@ export function ProductCard({ product }) {
           <span className="text-[10px] text-slate-400 font-mono shrink-0">{product.batchNumber}</span>
         </div>
 
-        {/* Sharp & Smooth Neue Product Title */}
-        <h3 className="font-neue font-semibold text-sm sm:text-[15px] text-slate-900 group-hover:text-[#B97832] transition-colors duration-200 line-clamp-2 leading-snug tracking-tight antialiased">
-          {product.name}
-        </h3>
+        {/* Sharp & Smooth Neue Product Title (Clickable Link) */}
+        <Link to={`/product/${product.id}`} className="block group/title">
+          <h3 className="font-neue font-semibold text-sm sm:text-[15px] text-slate-900 group-hover/title:text-[#B97832] group-hover:text-[#B97832] transition-colors duration-200 line-clamp-2 leading-snug tracking-tight antialiased">
+            {product.name}
+          </h3>
+        </Link>
 
         {/* Wholesale Spec Meta */}
         <div className="pt-2 border-t border-slate-100 space-y-1.5">
