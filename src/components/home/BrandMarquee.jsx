@@ -3,32 +3,35 @@ import { Sparkles } from 'lucide-react';
 
 export function BrandMarquee({ marqueeText }) {
   const defaultItems = [
-    'WHOLESALE READY',
-    'BULK ORDERS',
-    'PREMIUM FABRICS',
-    'GUARANTEED MOQS',
-    'PAN-INDIA LOGISTICS',
-    'DIRECT MANUFACTURER',
-    'VERIFIED B2B SUPPLY',
-    'GST INVOICING AVAILABLE'
+    'DIRECT MANUFACTURER B2B',
+    'PAN-INDIA DIRECT LOGISTICS',
+    'MINIMUM 30 PCS MOQ',
+    '100% INSPECTED QUALITY BATCHES',
+    'INSTANT GST INVOICING',
+    'TRANSPARENT TIER PRICING',
+    'VERIFIED WHOLESALE SUPPLY',
+    'FAST DISPATCH GUARANTEED'
   ];
 
   const items = marqueeText
     ? marqueeText.split('•').map(s => s.trim())
     : defaultItems;
 
-  const doubleItems = [...items, ...items, ...items];
+  // Duplicate items array multiple times to guarantee an endless smooth infinite marquee scroll
+  const marqueeItems = [...items, ...items, ...items, ...items];
 
   return (
-    <div className="bg-brand-900 text-luxury-gold py-3.5 border-y border-brand-800 overflow-hidden select-none">
-      <div className="flex w-max animate-marquee space-x-8 items-center font-mono text-xs font-bold tracking-widest uppercase">
-        {doubleItems.map((item, index) => (
-          <div key={index} className="flex items-center space-x-8">
-            <span className="hover:text-white transition-colors">{item}</span>
-            <Sparkles className="w-3.5 h-3.5 text-amber-500/60 shrink-0" />
+    <section className="bg-[#101828] text-white py-3.5 border-y border-slate-800 overflow-hidden select-none relative z-10 shadow-inner">
+      <div className="flex w-max animate-marquee-left items-center font-mono text-xs font-bold tracking-widest uppercase">
+        {marqueeItems.map((item, index) => (
+          <div key={index} className="flex items-center space-x-8 px-4">
+            <span className="text-slate-200 hover:text-[#B97832] transition-colors font-medium">
+              {item}
+            </span>
+            <Sparkles className="w-3.5 h-3.5 text-[#B97832] shrink-0 animate-pulse" />
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 }

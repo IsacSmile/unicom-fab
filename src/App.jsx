@@ -11,6 +11,8 @@ import { GoogleAuthModal } from './components/auth/GoogleAuthModal';
 import { Home } from './pages/Home';
 import { Catalogue } from './pages/Catalogue';
 import { ProductDetail } from './pages/ProductDetail';
+import { Cart } from './pages/Cart';
+import { MyEnquiry } from './pages/MyEnquiry';
 import { MyOrder } from './pages/MyOrder';
 import { About } from './pages/About';
 import { Login } from './pages/Login';
@@ -73,6 +75,8 @@ export default function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/catalogue" element={<Catalogue />} />
                 <Route path="/product/:id" element={<ProductDetail />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/my-enquiry" element={<MyEnquiry />} />
                 <Route path="/my-order" element={<MyOrder />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/login" element={<Login />} />

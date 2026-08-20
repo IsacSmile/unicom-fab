@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ProductGrid } from '../components/products/ProductGrid';
 import { FilterDrawer } from '../components/products/FilterDrawer';
@@ -8,6 +8,7 @@ import { Search, SlidersHorizontal, X, Sparkles, ChevronDown } from 'lucide-reac
 
 export function Catalogue() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const sentinelRef = useRef(null);
 
   // Filter States from URL search params
   const category = searchParams.get('category') || '';
@@ -74,6 +75,26 @@ export function Catalogue() {
     }
     fetchCatalogueProducts();
   }, [category, size, colour, inStockOnly, trendingOnly, newArrivalOnly, searchQuery, sortOption, page]);
+
+  // Automatic Infinite Scroll Observer for Lazy Loading
+  useEffect(() => {
+    if (loading || page >= totalPages) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && page < totalPages && !loading) {
+          updateParam('page', (page + 1).toString());
+        }
+      },
+      { threshold: 0.1, rootMargin: '250px' }
+    );
+
+    if (sentinelRef.current) {
+      observer.observe(sentinelRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [loading, page, totalPages]);
 
   // Helper to update individual URL query params
   const updateParam = (key, value) => {
@@ -281,18 +302,18 @@ export function Catalogue() {
           onClearFilters={resetAllFilters}
         />
 
-        {/* Load More Pagination */}
+        {/* Automatic Infinite Scroll Lazy Loading Sentinel */}
         {page < totalPages && (
-          <div className="text-center pt-8">
-            <Button
-              onClick={() => updateParam('page', (page + 1).toString())}
-              loading={loading}
-              variant="outline"
-              size="lg"
-              className="min-w-[220px] rounded-xl border-slate-300 hover:border-[#B97832] hover:text-[#B97832]"
-            >
-              Load More Lines ({total - products.length} Remaining)
-            </Button>
+          <div ref={sentinelRef} className="py-12 text-center flex flex-col items-center justify-center gap-2">
+            <div className="flex items-center gap-2.5 px-4 py-2 bg-white rounded-full border border-slate-200 shadow-2xs text-xs text-slate-600 font-mono">
+              <span className="w-3.5 h-3.5 border-2 border-[#B97832] border-t-transparent rounded-full animate-spin" />
+              <span>Loading more products...</span>
+            </div>
+          </div>
+        )}
+        {page >= totalPages && total > 0 && (
+          <div className="py-8 text-center text-xs font-mono text-slate-400 uppercase tracking-widest border-t border-slate-100">
+            ✓ You have reached the end of the catalogue ({total} total products)
           </div>
         )}
       </div>

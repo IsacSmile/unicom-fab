@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { ShoppingBag, Search, Menu, LogOut, ShieldCheck, User, X } from 'lucide-react';
+import { ShoppingBag, Search, Menu, LogOut, ShieldCheck, User, X, Send } from 'lucide-react';
 import { AnnouncementBar } from './AnnouncementBar';
 import { MobileMenu } from './MobileMenu';
 import { useAuth } from '../../context/AuthContext';
@@ -106,8 +106,8 @@ export function Header() {
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Catalogue', path: '/catalogue' },
+    { name: 'My Enquiries', path: '/my-enquiry' },
     { name: 'About', path: '/about' },
-    { name: 'My Order', path: '/my-order' },
   ];
 
   return (
@@ -257,10 +257,10 @@ export function Header() {
 
               {/* Cart / Wholesale Order Box Link */}
               <Link
-                to="/my-order"
+                to="/cart"
                 className="p-1.5 text-slate-900 hover:text-[#B97832] hover:bg-slate-100/80 rounded-xl transition-all flex items-center gap-1.5 relative border border-slate-200/80 bg-white/80 shadow-2xs group"
-                aria-label="View Wholesale Cart Order"
-                title="My Wholesale Order"
+                aria-label="View Wholesale Cart"
+                title="B2B Cart"
               >
                 <ShoppingBag className="w-5 h-5 stroke-[1.75] text-slate-900 group-hover:text-[#B97832] transition-colors" />
                 {totalQuantityCount > 0 ? (
@@ -269,7 +269,7 @@ export function Header() {
                   </span>
                 ) : (
                   <span className="hidden sm:inline-block text-[11px] font-semibold text-slate-500 group-hover:text-slate-900 pr-1">
-                    Order
+                    Cart
                   </span>
                 )}
               </Link>
@@ -278,7 +278,7 @@ export function Header() {
               <div className="relative group">
                 <button
                   onClick={() => {
-                    if (!user) promptGoogleAuth('/my-order');
+                    if (!user) promptGoogleAuth('/cart');
                   }}
                   className="p-1.5 text-slate-900 hover:text-[#B97832] hover:bg-slate-100/80 rounded-xl transition-colors flex items-center justify-center relative"
                   title={user ? user.name : "Sign in with Google"}
@@ -324,15 +324,12 @@ export function Header() {
                       {/* Dropdown Links */}
                       <div className="space-y-1">
                         <Link
-                          to="/my-order"
+                          to="/my-enquiry"
                           className="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-slate-800 hover:bg-slate-100 hover:text-[#B97832] transition-colors"
                         >
                           <span className="flex items-center gap-2">
-                            <ShoppingBag className="w-4 h-4 text-slate-500" />
-                            <span>My Order</span>
-                          </span>
-                          <span className="px-2 py-0.5 bg-[#B97832] text-white text-[10px] font-bold rounded-full">
-                            {totalQuantityCount > 0 ? `${totalQuantityCount} PCS` : '0'}
+                            <Send className="w-4 h-4 text-slate-500" />
+                            <span>My Enquiries</span>
                           </span>
                         </Link>
 
