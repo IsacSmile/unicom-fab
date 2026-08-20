@@ -201,13 +201,13 @@ export function Footer() {
           <p>© {new Date().getFullYear()} UNICOM FAB B2B Wholesale Platform. All rights reserved.</p>
 
           {/* Developer Credit */}
-          <p className="text-xs text-amber-200/90 font-medium tracking-wide">
+          <p className="text-xs text-slate-400 font-normal tracking-wide">
             Engineered by{' '}
             <a
               href="https://www.instagram.com/faiz_imam__"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-bold text-amber-400 hover:text-amber-300 transition-colors hover:underline"
+              className="font-bold text-[#F59E0B] hover:text-amber-400 transition-colors hover:underline"
             >
               Faiz.I
             </a>
