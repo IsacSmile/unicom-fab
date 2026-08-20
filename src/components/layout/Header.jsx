@@ -324,19 +324,6 @@ export function Header() {
                       {/* Dropdown Links */}
                       <div className="space-y-1">
                         <Link
-                          to="/cart"
-                          className="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-slate-800 hover:bg-slate-100 hover:text-[#B97832] transition-colors"
-                        >
-                          <span className="flex items-center gap-2">
-                            <ShoppingBag className="w-4 h-4 text-slate-500" />
-                            <span>B2B Cart</span>
-                          </span>
-                          <span className="px-2 py-0.5 bg-[#B97832] text-white text-[10px] font-bold rounded-full">
-                            {totalQuantityCount > 0 ? `${totalQuantityCount} PCS` : '0'}
-                          </span>
-                        </Link>
-
-                        <Link
                           to="/my-enquiry"
                           className="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-slate-800 hover:bg-slate-100 hover:text-[#B97832] transition-colors"
                         >
