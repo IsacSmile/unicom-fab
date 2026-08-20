@@ -15,22 +15,42 @@ const tursoToken = process.env.TURSO_AUTH_TOKEN;
 
 // Local SQLite database initialization (always available as fallback)
 function getLocalSqliteDb() {
-  const dbDir = path.join(__dirname);
-  if (!fs.existsSync(dbDir)) {
-    fs.mkdirSync(dbDir, { recursive: true });
-  }
-
-  const dbPath = path.join(dbDir, 'unicom.db');
-  const sqliteDb = new Database(dbPath);
-  sqliteDb.pragma('journal_mode = WAL');
-  sqliteDb.pragma('foreign_keys = ON');
-
   const schemaPath = path.join(__dirname, 'schema.sql');
-  if (fs.existsSync(schemaPath)) {
-    const schemaSql = fs.readFileSync(schemaPath, 'utf8');
-    sqliteDb.exec(schemaSql);
+  const schemaSql = fs.existsSync(schemaPath) ? fs.readFileSync(schemaPath, 'utf8') : '';
+
+  try {
+    const dbDir = path.join(__dirname);
+    if (!fs.existsSync(dbDir)) {
+      fs.mkdirSync(dbDir, { recursive: true });
+    }
+
+    const dbPath = path.join(dbDir, 'unicom.db');
+    const sqliteDb = new Database(dbPath);
+    sqliteDb.pragma('journal_mode = WAL');
+    sqliteDb.pragma('foreign_keys = ON');
+
+    if (schemaSql) {
+      sqliteDb.exec(schemaSql);
+    }
+    return sqliteDb;
+  } catch (err) {
+    console.warn('⚠️ Local directory unwriteable (serverless environment), using /tmp/unicom.db:', err.message);
+    try {
+      const tmpPath = path.join('/tmp', 'unicom.db');
+      const tmpDb = new Database(tmpPath);
+      if (schemaSql) {
+        tmpDb.exec(schemaSql);
+      }
+      return tmpDb;
+    } catch (tmpErr) {
+      console.warn('⚠️ /tmp unwriteable, using in-memory database:', tmpErr.message);
+      const memDb = new Database(':memory:');
+      if (schemaSql) {
+        memDb.exec(schemaSql);
+      }
+      return memDb;
+    }
   }
-  return sqliteDb;
 }
 
 let db;
