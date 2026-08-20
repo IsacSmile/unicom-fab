@@ -461,12 +461,24 @@ const productsData = [
   }
 ];
 
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import db from './database.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 async function seed() {
   console.log('🌱 Starting UNICOM FAB B2B Database Seeding...');
 
   try {
+    const schemaPath = path.join(__dirname, 'schema.sql');
+    if (fs.existsSync(schemaPath)) {
+      const schemaSql = fs.readFileSync(schemaPath, 'utf8');
+      await db.exec(schemaSql);
+    }
+
     // Clear existing tables
     await db.exec(`
       DELETE FROM order_items;
