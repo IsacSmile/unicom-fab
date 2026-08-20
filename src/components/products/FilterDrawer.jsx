@@ -25,11 +25,11 @@ export function FilterDrawer({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden bg-slate-950/60 backdrop-blur-xs flex justify-end animate-fade-in">
-      <div className="w-full max-w-md bg-white h-full shadow-2xl p-6 overflow-y-auto flex flex-col justify-between">
-        <div>
+    <div className="fixed inset-0 z-[100] overflow-hidden bg-slate-950/60 backdrop-blur-sm flex justify-end animate-fade-in">
+      <div className="w-full max-w-md bg-white h-full shadow-2xl overflow-y-auto flex flex-col justify-between">
+        <div className="p-6">
           {/* Header */}
-          <div className="flex items-center justify-between pb-4 mb-6 border-b border-slate-200">
+          <div className="sticky top-0 bg-white/95 backdrop-blur-md z-10 flex items-center justify-between pb-4 mb-6 border-b border-slate-200 -mx-6 px-6 pt-2">
             <h3 className="font-serif font-bold text-xl text-slate-900 flex items-center gap-2">
               <Filter className="w-4 h-4 text-[#B97832]" /> Filter Catalogue
             </h3>
@@ -43,9 +43,10 @@ export function FilterDrawer({
               </button>
               <button
                 onClick={onClose}
-                className="p-1 rounded-lg text-slate-400 hover:text-slate-800 transition-colors"
+                className="p-1.5 rounded-xl text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-colors"
+                aria-label="Close Filter"
               >
-                <X className="w-5 h-5" />
+                <X className="w-5 h-5 stroke-[2]" />
               </button>
             </div>
           </div>
