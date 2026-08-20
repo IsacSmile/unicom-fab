@@ -75,58 +75,99 @@ export function AdminOrders() {
           </div>
         </div>
 
-        {/* Orders Table */}
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        {/* Orders Table & Mobile Cards */}
+        <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
           {loading ? (
             <div className="p-6">
               <TableSkeleton rows={8} />
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs border-collapse">
-                <thead>
-                  <tr className="bg-slate-50 border-b border-slate-200 font-mono font-bold text-slate-500 uppercase">
-                    <th className="p-3">Order ID</th>
-                    <th className="p-3">Buyer Company</th>
-                    <th className="p-3">Google Account</th>
-                    <th className="p-3 text-right">Total Units</th>
-                    <th className="p-3 text-right">Wholesale Amount</th>
-                    <th className="p-3">Order Date</th>
-                    <th className="p-3">Status</th>
-                    <th className="p-3 text-right">Inspect</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100">
-                  {filteredOrders.map((o) => (
-                    <tr key={o.id} className="hover:bg-slate-50">
-                      <td className="p-3 font-mono font-bold text-brand-950">{o.id}</td>
-                      <td className="p-3 font-serif font-bold text-slate-800">{o.companyName}</td>
-                      <td className="p-3 text-slate-500">
-                        {o.userName} ({o.userEmail})
-                      </td>
-                      <td className="p-3 text-right font-mono font-bold">{o.totalQuantity} PCS</td>
-                      <td className="p-3 text-right font-mono font-bold text-slate-900">
-                        {formatCurrency(o.totalAmount)}
-                      </td>
-                      <td className="p-3 font-mono text-slate-400">
-                        {new Date(o.createdAt).toLocaleDateString('en-IN')}
-                      </td>
-                      <td className="p-3">
-                        <Badge variant={statusVariants[o.status] || 'default'}>{o.status}</Badge>
-                      </td>
-                      <td className="p-3 text-right">
-                        <button
-                          onClick={() => setSelectedOrder(o)}
-                          className="p-1.5 text-brand-900 hover:bg-slate-200 rounded-lg transition-colors inline-flex items-center gap-1 font-bold"
-                        >
-                          <Eye className="w-4 h-4" /> Specs
-                        </button>
-                      </td>
+            <>
+              {/* Mobile Responsive Order Cards (md:hidden) */}
+              <div className="md:hidden divide-y divide-slate-200">
+                {filteredOrders.map((o) => (
+                  <div key={o.id} className="p-4 space-y-3 bg-white">
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-xs font-bold text-brand-950">{o.id}</span>
+                      <Badge variant={statusVariants[o.status] || 'default'}>{o.status}</Badge>
+                    </div>
+
+                    <div>
+                      <h4 className="font-serif font-bold text-sm text-slate-900">{o.companyName}</h4>
+                      <p className="text-[11px] text-slate-500">{o.userName} ({o.userEmail})</p>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-2 bg-slate-50 p-2.5 rounded-xl text-xs font-mono">
+                      <div>
+                        <span className="text-[10px] text-slate-400 block uppercase">Total Amount</span>
+                        <span className="font-bold text-slate-900">{formatCurrency(o.totalAmount)}</span>
+                      </div>
+                      <div>
+                        <span className="text-[10px] text-slate-400 block uppercase">Units / Date</span>
+                        <span className="font-bold text-slate-700">{o.totalQuantity} PCS</span>
+                        <span className="text-[10px] text-slate-400 block">{new Date(o.createdAt).toLocaleDateString('en-IN')}</span>
+                      </div>
+                    </div>
+
+                    <div className="pt-1">
+                      <button
+                        onClick={() => setSelectedOrder(o)}
+                        className="w-full py-2 px-4 bg-brand-950 text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 shadow-xs"
+                      >
+                        <Eye className="w-4 h-4 text-amber-400" /> View Order Specs
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Desktop Table View (hidden md:block) */}
+              <div className="hidden md:block overflow-x-auto">
+                <table className="w-full text-left text-xs border-collapse">
+                  <thead>
+                    <tr className="bg-slate-50 border-b border-slate-200 font-mono font-bold text-slate-500 uppercase">
+                      <th className="p-3">Order ID</th>
+                      <th className="p-3">Buyer Company</th>
+                      <th className="p-3">Google Account</th>
+                      <th className="p-3 text-right">Total Units</th>
+                      <th className="p-3 text-right">Wholesale Amount</th>
+                      <th className="p-3">Order Date</th>
+                      <th className="p-3">Status</th>
+                      <th className="p-3 text-right">Inspect</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    {filteredOrders.map((o) => (
+                      <tr key={o.id} className="hover:bg-slate-50">
+                        <td className="p-3 font-mono font-bold text-brand-950">{o.id}</td>
+                        <td className="p-3 font-serif font-bold text-slate-800">{o.companyName}</td>
+                        <td className="p-3 text-slate-500">
+                          {o.userName} ({o.userEmail})
+                        </td>
+                        <td className="p-3 text-right font-mono font-bold">{o.totalQuantity} PCS</td>
+                        <td className="p-3 text-right font-mono font-bold text-slate-900">
+                          {formatCurrency(o.totalAmount)}
+                        </td>
+                        <td className="p-3 font-mono text-slate-400">
+                          {new Date(o.createdAt).toLocaleDateString('en-IN')}
+                        </td>
+                        <td className="p-3">
+                          <Badge variant={statusVariants[o.status] || 'default'}>{o.status}</Badge>
+                        </td>
+                        <td className="p-3 text-right">
+                          <button
+                            onClick={() => setSelectedOrder(o)}
+                            className="p-1.5 text-brand-900 hover:bg-slate-200 rounded-lg transition-colors inline-flex items-center gap-1 font-bold"
+                          >
+                            <Eye className="w-4 h-4" /> Specs
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
           )}
         </div>
 
