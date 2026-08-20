@@ -29,12 +29,14 @@ export function Login() {
   return (
     <div className="py-16 max-w-md mx-auto px-4">
       <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-xl space-y-6">
-        <div className="text-center space-y-2">
-          <div className="w-12 h-12 rounded-2xl bg-brand-950 text-luxury-gold flex items-center justify-center font-serif font-bold text-2xl mx-auto">
-            U
+        <div className="text-center space-y-3 font-neue">
+          <div className="w-12 h-12 rounded-2xl bg-slate-950 text-[#B97832] border border-slate-800 shadow-md flex items-center justify-center mx-auto">
+            <ShieldCheck className="w-6 h-6 stroke-[1.75]" />
           </div>
-          <h2 className="font-serif font-bold text-2xl text-brand-950">UNICOM FAB Portal Login</h2>
-          <p className="text-xs text-slate-500">Access your B2B customer account or system admin panel</p>
+          <div className="space-y-1">
+            <h2 className="text-lg font-bold text-slate-900">Wholesale Portal Authentication</h2>
+            <p className="text-xs text-slate-500 font-normal">Access your B2B customer account or system admin panel</p>
+          </div>
         </div>
 
         {/* Tab Switcher */}

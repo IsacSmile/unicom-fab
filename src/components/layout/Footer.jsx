@@ -67,12 +67,11 @@ export function Footer() {
           {/* Column 1: Brand Info & Quality Assurance */}
           <div className="lg:col-span-2 space-y-4">
             <Link to="/" className="flex items-center gap-2.5 group">
-              <div className="w-9 h-9 rounded-xl bg-[#101828] border border-slate-700 flex items-center justify-center text-[#B97832] font-serif font-bold text-xl shadow-xs group-hover:scale-105 transition-transform">
-                U
-              </div>
-              <span className="font-serif font-bold text-2xl tracking-tight text-white">
-                UNICOM<span className="text-[#B97832]">FAB</span>
-              </span>
+              <img
+                src="/unicom-fab-main-logo.png"
+                alt="UNICOM FAB"
+                className="h-9 w-auto object-contain rounded-lg shadow-2xs group-hover:scale-105 transition-transform"
+              />
             </Link>
             
             <p className="text-xs text-slate-400 max-w-sm leading-relaxed font-light">

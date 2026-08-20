@@ -28,7 +28,7 @@ export function GuestEnquiryModal({ isOpen, onClose, initialProduct = '' }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.companyName || !formData.email || !formData.phone || !formData.message) {
+    if (!formData.name || !formData.email || !formData.phone || !formData.message) {
       addToast('Please fill in all required fields marked with *', 'error');
       return;
     }
@@ -96,22 +96,21 @@ export function GuestEnquiryModal({ isOpen, onClose, initialProduct = '' }) {
                 required
                 value={formData.name}
                 onChange={handleChange}
-                placeholder="e.g. Rajesh Kumar"
+                placeholder="Your Full Name"
                 className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-950"
               />
             </div>
 
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1">
-                Company / Retailer Name *
+                Company / Business / Your Name
               </label>
               <input
                 type="text"
                 name="companyName"
-                required
                 value={formData.companyName}
                 onChange={handleChange}
-                placeholder="e.g. Apex Fashion Works"
+                placeholder="Your Company / Business / Full Name"
                 className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-950"
               />
             </div>
@@ -128,7 +127,7 @@ export function GuestEnquiryModal({ isOpen, onClose, initialProduct = '' }) {
                 required
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="buyer@company.com"
+                placeholder="Your Email Address"
                 className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-950"
               />
             </div>
@@ -143,7 +142,7 @@ export function GuestEnquiryModal({ isOpen, onClose, initialProduct = '' }) {
                 required
                 value={formData.phone}
                 onChange={handleChange}
-                placeholder="+91 98765 43210"
+                placeholder="Your Phone / WhatsApp Number"
                 className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-950"
               />
             </div>
@@ -187,7 +186,7 @@ export function GuestEnquiryModal({ isOpen, onClose, initialProduct = '' }) {
                 name="city"
                 value={formData.city}
                 onChange={handleChange}
-                placeholder="e.g. Surat / Mumbai"
+                placeholder="Your City / Location"
                 className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-950"
               />
             </div>

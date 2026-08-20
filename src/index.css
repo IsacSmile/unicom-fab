@@ -3,14 +3,14 @@
 @import "tailwindcss/utilities";
 
 @layer base {
-  body {
+  body, .font-neue {
     background-color: #FAF9F6;
     color: #101828;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: 'Neue Haas Grotesk Text Pro', 'Neue Haas Grotesk', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
 
   h1, h2, h3, .font-serif {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Neue Haas Grotesk Display Pro', 'Neue Haas Grotesk', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
 
   .font-display {
@@ -32,6 +32,17 @@
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #94A3B8;
+}
+
+/* Hide scrollbar utility class */
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+.no-scrollbar {
+  -ms-overflow-style: none !important;  /* IE and Edge */
+  scrollbar-width: none !important;  /* Firefox */
 }
 
 /* Glassmorphism & UI Accents */

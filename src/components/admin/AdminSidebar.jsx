@@ -19,15 +19,11 @@ export function AdminSidebar() {
       <div className="space-y-6">
         {/* Brand Header */}
         <div className="flex items-center gap-3 pb-5 border-b border-brand-800">
-          <div className="w-9 h-9 rounded-xl bg-luxury-gold flex items-center justify-center text-brand-950 font-serif font-bold text-xl">
-            U
-          </div>
-          <div>
-            <span className="font-serif font-bold text-lg text-white block leading-none">UNICOM FAB</span>
-            <span className="text-[10px] font-mono text-amber-400 uppercase tracking-wider font-semibold">
-              Admin Portal
-            </span>
-          </div>
+          <img
+            src="/unicom-fab-main-logo.png"
+            alt="UNICOM FAB"
+            className="h-8 w-auto object-contain rounded-lg shadow-2xs"
+          />
         </div>
 
         {/* Links */}

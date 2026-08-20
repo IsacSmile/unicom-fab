@@ -25,12 +25,25 @@ router.get('/stats', (req, res) => {
   try {
     const totalProducts = db.prepare('SELECT COUNT(*) as count FROM products').get()?.count || 0;
     const totalOrders = db.prepare('SELECT COUNT(*) as count FROM orders').get()?.count || 0;
-    const pendingOrders = db.prepare('SELECT COUNT(*) as count FROM orders WHERE status = "Pending"').get()?.count || 0;
+    const pendingOrders = db.prepare("SELECT COUNT(*) as count FROM orders WHERE status = 'Pending'").get()?.count || 0;
     const totalEnquiries = db.prepare('SELECT COUNT(*) as count FROM enquiries').get()?.count || 0;
-    const newEnquiries = db.prepare('SELECT COUNT(*) as count FROM enquiries WHERE status = "New"').get()?.count || 0;
-    const lowStockProducts = db.prepare('SELECT COUNT(*) as count FROM products WHERE stock_quantity <= min_order_quantity * 2').get()?.count || 0;
+    const newEnquiries = db.prepare("SELECT COUNT(*) as count FROM enquiries WHERE status = 'New'").get()?.count || 0;
     const trendingProducts = db.prepare('SELECT COUNT(*) as count FROM products WHERE is_trending = 1').get()?.count || 0;
     const newArrivalProducts = db.prepare('SELECT COUNT(*) as count FROM products WHERE is_new_arrival = 1').get()?.count || 0;
+
+    const lowStockProducts = db.prepare(`
+      SELECT id, name, batch_number as batchNumber, stock_quantity as stockQuantity, min_order_quantity as minOrderQuantity 
+      FROM products 
+      WHERE stock_quantity <= min_order_quantity * 2 
+      LIMIT 10
+    `).all() || [];
+
+    const recentOrders = db.prepare(`
+      SELECT id, company_name as companyName, user_email as userEmail, total_quantity as totalQuantity, total_amount as totalAmount, status 
+      FROM orders 
+      ORDER BY created_at DESC 
+      LIMIT 5
+    `).all() || [];
 
     return res.json({
       totalProducts,
@@ -38,9 +51,10 @@ router.get('/stats', (req, res) => {
       pendingOrders,
       totalEnquiries,
       newEnquiries,
-      lowStockProducts,
       trendingProducts,
-      newArrivalProducts
+      newArrivalProducts,
+      lowStockProducts,
+      recentOrders
     });
   } catch (err) {
     console.error('Error fetching admin stats:', err);

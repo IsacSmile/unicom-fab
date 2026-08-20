@@ -4,6 +4,50 @@ import { ArrowRight } from 'lucide-react';
 import { Badge } from '../common/Badge';
 import { formatCurrency, getStockBadge } from '../../lib/utils';
 
+const COLOR_MAP = {
+  black: '#18181B',
+  white: '#FFFFFF',
+  offwhite: '#F8F8F0',
+  navy: '#1E3A8A',
+  blue: '#2563EB',
+  lightblue: '#93C5FD',
+  sky: '#38BDF8',
+  red: '#DC2626',
+  maroon: '#800000',
+  wine: '#58111A',
+  beige: '#E5DDC8',
+  cream: '#FFFDD0',
+  ivory: '#FFFFF0',
+  gold: '#D97706',
+  yellow: '#EAB308',
+  green: '#16A34A',
+  olive: '#556B2F',
+  emerald: '#059669',
+  sage: '#9CAF88',
+  grey: '#6B7280',
+  gray: '#6B7280',
+  charcoal: '#374151',
+  pink: '#EC4899',
+  rose: '#F43F5E',
+  purple: '#9333EA',
+  violet: '#7C3AED',
+  brown: '#78350F',
+  tan: '#D2B48C',
+  rust: '#B7410E',
+  orange: '#EA580C',
+  mustard: '#E1AD01',
+  teal: '#0D9488',
+};
+
+function getColorHex(colorName) {
+  if (!colorName) return '#CBD5E1';
+  const clean = colorName.toLowerCase().replace(/[^a-z]/g, '');
+  for (const [key, hex] of Object.entries(COLOR_MAP)) {
+    if (clean.includes(key)) return hex;
+  }
+  return '#94A3B8';
+}
+
 export function ProductCard({ product }) {
   const mainImage = product.images && product.images[0]
     ? product.images[0]
@@ -12,84 +56,92 @@ export function ProductCard({ product }) {
   const stockInfo = getStockBadge(product.stockQuantity, product.minOrderQuantity);
 
   return (
-    <div className="group relative bg-white rounded-2xl border border-[#E7E3DA] overflow-hidden shadow-xs hover:shadow-lg hover:border-[#B97832]/40 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between h-full">
+    <div className="group relative bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-2xs hover:shadow-xl hover:border-[#B97832]/60 transition-all duration-300 flex flex-col font-neue">
       
-      {/* Card Ambient Golden Halo Glow on Hover */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-[#B97832]/10 via-amber-100/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-md z-0" />
+      {/* Ambient Golden Border Glow on Hover */}
+      <div className="pointer-events-none absolute -inset-px rounded-2xl border-2 border-transparent group-hover:border-[#B97832]/40 transition-colors z-20" />
 
-      {/* Image Container */}
-      <div className="relative aspect-[4/5] bg-[#F5F3EE] overflow-hidden z-10">
+      {/* Image Container (Reduced height ratio for compact luxury presentation) */}
+      <div className="relative aspect-[4/4.2] bg-slate-100 overflow-hidden z-10">
         <img
           src={mainImage}
           alt={product.name}
           loading="lazy"
-          className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+          className="w-full h-full object-cover object-center group-hover:scale-104 transition-transform duration-500"
         />
 
-        {/* Badges Overlay */}
-        <div className="absolute top-3 left-3 flex flex-wrap gap-1.5 z-10">
+        {/* Floating Glassmorphism Badges (Trending / New Arrival) */}
+        <div className="absolute top-2.5 left-2.5 flex flex-wrap gap-1.5 z-10">
           {product.isTrending && <Badge variant="trending">Trending</Badge>}
           {product.isNewArrival && <Badge variant="new">New Arrival</Badge>}
         </div>
 
         {/* Stock Badge Overlay Top Right */}
-        <div className="absolute top-3 right-3 z-10">
-          <span className={`px-2 py-1 rounded-md text-[10px] font-bold border uppercase ${stockInfo.color}`}>
+        <div className="absolute top-2.5 right-2.5 z-10">
+          <span className={`px-2 py-0.5 rounded-md text-[9px] font-neue font-bold border uppercase tracking-wider backdrop-blur-md shadow-2xs ${stockInfo.color}`}>
             {stockInfo.label}
           </span>
         </div>
 
-        {/* Quick View / Action Button overlay */}
-        <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-[#101828]/85 via-[#101828]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+        {/* Quick View Overlay */}
+        <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-slate-950/85 via-slate-950/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
           <Link
             to={`/product/${product.id}`}
-            className="w-full py-2.5 bg-white text-[#101828] text-xs font-bold uppercase tracking-wider rounded-xl shadow-lg flex items-center justify-center gap-2 hover:bg-[#B97832] hover:text-white transition-colors"
+            className="w-full py-2 bg-slate-950 text-white text-[11px] font-semibold uppercase tracking-wider rounded-xl shadow-md flex items-center justify-center gap-2 hover:bg-[#B97832] transition-colors"
           >
-            <span>View Wholesale Specs</span>
+            <span>View Specs</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
       </div>
 
-      {/* Details Area */}
-      <div className="p-5 flex-1 flex flex-col justify-between relative z-10">
-        <div>
-          <div className="flex items-center justify-between text-xs text-[#667085] font-mono mb-1">
-            <span>{product.category}</span>
-            <span>{product.batchNumber}</span>
-          </div>
-
-          <h3 className="font-serif font-bold text-base text-[#101828] group-hover:text-[#B97832] transition-colors line-clamp-2 mb-2">
-            {product.name}
-          </h3>
+      {/* Compact Content Details Area */}
+      <div className="p-3.5 sm:p-4 flex flex-col gap-2 relative z-10 bg-white">
+        {/* Category & Batch Header (Fixed in Same Line) */}
+        <div className="flex items-center justify-between gap-2 text-xs whitespace-nowrap overflow-hidden">
+          <span className="uppercase tracking-wider font-neue font-bold text-[10px] text-[#B97832] truncate">{product.category}</span>
+          <span className="text-[10px] text-slate-400 font-mono shrink-0">{product.batchNumber}</span>
         </div>
 
+        {/* Sharp & Smooth Neue Product Title */}
+        <h3 className="font-neue font-semibold text-sm sm:text-[15px] text-slate-900 group-hover:text-[#B97832] transition-colors duration-200 line-clamp-2 leading-snug tracking-tight antialiased">
+          {product.name}
+        </h3>
+
         {/* Wholesale Spec Meta */}
-        <div className="pt-3 border-t border-[#E7E3DA] space-y-2">
-          {/* Colours Available */}
+        <div className="pt-2 border-t border-slate-100 space-y-1.5">
+          {/* Colours Swatches */}
           {product.colours && product.colours.length > 0 && (
-            <div className="flex items-center gap-1.5 text-xs text-[#475467]">
-              <span className="text-[11px] font-semibold uppercase text-[#98A2B3]">Colours:</span>
-              <div className="flex items-center gap-1">
-                {product.colours.slice(0, 3).map((col, i) => (
-                  <span key={i} className="px-1.5 py-0.5 bg-[#F5F3EE] rounded text-[10px] font-medium text-[#344054]">
-                    {col}
-                  </span>
-                ))}
-                {product.colours.length > 3 && (
-                  <span className="text-[10px] text-[#98A2B3] font-medium">+{product.colours.length - 3}</span>
-                )}
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-neue font-bold uppercase tracking-wider text-slate-400">Colours:</span>
+              <div className="flex items-center gap-1.5">
+                {product.colours.map((col, i) => {
+                  const hex = getColorHex(col);
+                  return (
+                    <div key={i} className="group/swatch relative flex items-center justify-center">
+                      <span
+                        className="w-3.5 h-3.5 rounded-full border border-slate-300 shadow-2xs cursor-pointer transition-transform duration-200 group-hover/swatch:scale-125 group-hover/swatch:ring-2 group-hover/swatch:ring-[#B97832]"
+                        style={{ backgroundColor: hex }}
+                      />
+                      {/* Color Name Tooltip */}
+                      <div className="pointer-events-none absolute bottom-full mb-1.5 left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-900 text-white text-[10px] font-medium px-2 py-0.5 rounded shadow-md opacity-0 group-hover/swatch:opacity-100 transition-opacity duration-200 z-30">
+                        {col}
+                        <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-900" />
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}
 
           {/* Sizes Available */}
           {product.sizes && product.sizes.length > 0 && (
-            <div className="flex items-center gap-1.5 text-xs text-[#475467]">
-              <span className="text-[11px] font-semibold uppercase text-[#98A2B3]">Sizes:</span>
-              <div className="flex items-center gap-1">
-                {product.sizes.slice(0, 4).map((sz, i) => (
-                  <span key={i} className="px-1.5 py-0.5 bg-[#F5F3EE] rounded text-[10px] font-medium text-[#344054] font-mono">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-neue font-bold uppercase tracking-wider text-slate-400">Sizes:</span>
+              <div className="flex items-center gap-1 overflow-x-auto no-scrollbar whitespace-nowrap justify-end">
+                {product.sizes.map((sz, i) => (
+                  <span key={i} className="px-1.5 py-0.5 bg-slate-50 border border-slate-200 rounded text-[10px] font-neue font-bold text-slate-700 shrink-0">
                     {sz}
                   </span>
                 ))}
@@ -97,16 +149,15 @@ export function ProductCard({ product }) {
             </div>
           )}
 
-          {/* Price & MOQ */}
-          <div className="flex items-center justify-between pt-2">
-            <div>
-              <span className="text-xs text-[#667085] block font-medium">Wholesale Rate</span>
-              <span className="font-display font-bold text-lg text-[#101828]">
+          {/* Price & MOQ (Increased Price Size + Compact MOQ Badge) */}
+          <div className="flex items-center justify-between pt-1.5 gap-2 whitespace-nowrap">
+            <div className="flex items-baseline gap-1">
+              <span className="font-neue font-bold text-base sm:text-lg text-slate-950 leading-none">
                 {formatCurrency(product.wholesalePrice)}
-                <span className="text-xs font-normal text-[#667085]"> / PC</span>
               </span>
+              <span className="text-xs font-neue font-medium text-slate-500">/ pc</span>
             </div>
-            <div className="text-right">
+            <div className="shrink-0">
               <Badge variant="moq">MOQ: {product.minOrderQuantity} PCS</Badge>
             </div>
           </div>
