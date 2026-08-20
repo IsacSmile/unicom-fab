@@ -7,7 +7,7 @@ import { api } from '../lib/api';
 import { Button } from '../components/common/Button';
 import { EmptyState } from '../components/common/EmptyState';
 import { formatCurrency } from '../lib/utils';
-import { Trash2, ShoppingBag, ShieldCheck, Building2, MapPin, Phone, CheckCircle2, ArrowRight, Layers } from 'lucide-react';
+import { Trash2, ShoppingBag, ShieldCheck, Building2, MapPin, Phone, CheckCircle2, ArrowRight, Layers, Plus, Minus } from 'lucide-react';
 
 export function MyOrder() {
   const { cartItems, updateQuantity, removeFromCart, clearCart, totalWholesaleAmount, totalQuantityCount } = useCart();
@@ -193,13 +193,23 @@ export function MyOrder() {
 
                   {/* Quantity controls & Delete */}
                   <div className="flex items-center justify-between sm:flex-col sm:items-end gap-3 w-full sm:w-auto pt-3 sm:pt-0 border-t sm:border-t-0 border-slate-100">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        type="button"
+                        onClick={() => updateQuantity(item.cartItemId, Math.max(item.minOrderQuantity, item.quantity - item.quantityStep))}
+                        disabled={item.quantity <= item.minOrderQuantity}
+                        className="w-7 h-7 rounded-lg border border-slate-300 bg-white text-slate-800 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center font-bold text-xs transition-colors"
+                        title="Decrease quantity"
+                      >
+                        <Minus className="w-3 h-3" />
+                      </button>
+
                       <select
                         value={item.quantity}
                         onChange={(e) => updateQuantity(item.cartItemId, parseInt(e.target.value))}
-                        className="py-1.5 px-2 border border-slate-300 rounded-lg text-xs font-bold text-slate-800 bg-white"
+                        className="py-1 px-2 border border-slate-300 rounded-lg text-xs font-bold text-slate-900 bg-white focus:outline-none focus:ring-1 focus:ring-slate-900"
                       >
-                        {Array.from({ length: 25 }).map((_, idx) => {
+                        {Array.from({ length: 12 }).map((_, idx) => {
                           const val = item.minOrderQuantity + idx * item.quantityStep;
                           if (val > item.stockQuantity) return null;
                           return (
@@ -209,9 +219,20 @@ export function MyOrder() {
                           );
                         })}
                       </select>
+
+                      <button
+                        type="button"
+                        onClick={() => updateQuantity(item.cartItemId, Math.min(item.stockQuantity, item.quantity + item.quantityStep))}
+                        disabled={item.quantity + item.quantityStep > item.stockQuantity}
+                        className="w-7 h-7 rounded-lg border border-slate-300 bg-white text-slate-800 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center font-bold text-xs transition-colors"
+                        title="Increase quantity"
+                      >
+                        <Plus className="w-3 h-3" />
+                      </button>
+
                       <button
                         onClick={() => removeFromCart(item.cartItemId)}
-                        className="p-1.5 text-slate-400 hover:text-red-600 rounded-lg hover:bg-slate-100 transition-colors"
+                        className="p-1.5 text-slate-400 hover:text-red-600 rounded-lg hover:bg-red-50 transition-colors ml-1"
                         title="Remove item"
                       >
                         <Trash2 className="w-4 h-4" />

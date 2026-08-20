@@ -5,7 +5,7 @@
 @layer base {
   body {
     background-color: #FAF9F6;
-    color: #0F172A;
+    color: #101828;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
 
@@ -39,7 +39,7 @@
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(226, 232, 240, 0.8);
+  border: 1px solid rgba(231, 227, 218, 0.8);
 }
 
 .glass-dark {
@@ -59,7 +59,48 @@
 }
 .shadow-editorial-hover:hover {
   transform: translateY(-4px);
-  box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.12);
+  box-shadow: 0 20px 40px -15px rgba(185, 120, 50, 0.15);
+}
+
+/* Global Ambient Halo Radial Utilities */
+.halo-glow-top {
+  position: fixed;
+  top: -10rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(185, 120, 50, 0.12) 0%, rgba(245, 243, 238, 0.05) 60%, transparent 80%);
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.halo-gold {
+  box-shadow: 0 0 25px -5px rgba(185, 120, 50, 0.25);
+}
+
+.halo-card {
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.halo-card::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(185, 120, 50, 0.35), transparent 60%, rgba(185, 120, 50, 0.15));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.halo-card:hover::before {
+  opacity: 1;
 }
 
 /* Shimmer Loader */
@@ -112,4 +153,3 @@
     justify-content: center;
   }
 }
-
