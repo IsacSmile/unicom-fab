@@ -37,15 +37,24 @@ function ProtectedAdminRoute({ children }) {
   return children;
 }
 
-// Layout wrapper to conditionally hide header/footer on admin pages
+// Layout wrapper to conditionally hide header/footer on admin pages & render global ambient halo effects
 function MainLayout({ children }) {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50/50 text-slate-900 font-sans antialiased selection:bg-amber-200 selection:text-brand-950">
+    <div className="min-h-screen flex flex-col bg-[#FAF9F6] text-[#101828] font-sans antialiased selection:bg-[#B97832]/20 selection:text-[#101828] relative overflow-x-hidden">
+      {/* Global Ambient Golden Halo Backdrops across the whole website */}
+      {!isAdminRoute && (
+        <>
+          <div className="pointer-events-none fixed -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-gradient-to-tr from-[#B97832]/12 via-amber-200/10 to-transparent blur-3xl z-0" />
+          <div className="pointer-events-none fixed top-1/3 -right-40 w-[600px] h-[600px] bg-gradient-to-bl from-[#B97832]/8 via-amber-100/10 to-transparent blur-3xl z-0" />
+          <div className="pointer-events-none fixed bottom-10 -left-40 w-[600px] h-[600px] bg-gradient-to-tr from-[#B97832]/6 via-amber-100/5 to-transparent blur-3xl z-0" />
+        </>
+      )}
+
       {!isAdminRoute && <Header />}
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 relative z-10">{children}</main>
       {!isAdminRoute && <Footer />}
       <GoogleAuthModal />
     </div>
